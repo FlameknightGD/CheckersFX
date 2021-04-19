@@ -18,7 +18,7 @@
     -fx-border-insets: 1.0 1.0 1.0 1.0, 0.0;
 }
 
-#root
+/*#root
 {
-	-fx-background-image: url("file:textures/sans.png");
+	-fx-background-image: url("file:textures/bg.jpg");
 }
