@@ -2,6 +2,7 @@ package game;
 
 import java.nio.file.Paths;
 
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.stage.Stage;
@@ -154,6 +156,7 @@ public class Main extends Application
 		Button button_sp = new Button("Singleplayer");
 		Button button_mp = new Button("Multiplayer");
 		Button button_settings = new Button("Settings");
+		Button button_close = new Button("Close Game");
 		
 		button_sp.setId("menu_button");
 		button_sp.setMaxWidth(width / 4);
@@ -167,7 +170,11 @@ public class Main extends Application
 		button_settings.setMaxWidth(width / 4);
 		button_settings.setAlignment(Pos.CENTER);
 		
-		menu_buttons.getChildren().addAll(button_sp, button_mp, button_settings);
+		button_close.setId("menu_button");
+		button_close.setMaxWidth(width / 4);
+		button_close.setAlignment(Pos.CENTER);
+		
+		menu_buttons.getChildren().addAll(button_sp, button_mp, button_settings, button_close);
 		menu_buttons.setAlignment(Pos.CENTER);
 		
 		//Button Functions
@@ -185,7 +192,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel Spa√ü beim Programmieren des Mehrspielermodus', Niclas;
+            	//Viel Spaﬂ beim Programmieren des Mehrspielermodus', Niclas;
             	
             	menu_multiplayer();
             }
@@ -197,6 +204,15 @@ public class Main extends Application
             public void handle(ActionEvent actionEvent) 
             {
             	menu_settings();
+            }
+        });
+		
+		button_close.setOnAction(new EventHandler<ActionEvent>() 
+		{
+            @Override
+            public void handle(ActionEvent actionEvent) 
+            {
+            	primaryStage.close();
             }
         });
 	}
@@ -243,6 +259,11 @@ public class Main extends Application
 	public void menu_settings()
 	{
 		this.menu_id = 4;
+	}
+	
+	public void menu_close()
+	{
+		
 	}
 	
 	public void back()
