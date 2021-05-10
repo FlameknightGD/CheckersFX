@@ -2,20 +2,24 @@ package game;
 
 import java.nio.file.Paths;
 
-
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -32,6 +36,8 @@ public class Main extends Application
 	
 	AudioClip its_raining_somewhere_else;
 	
+	Font cavalier;
+	
 	int menu_id;
 	
 	public static void main(String[] args) 
@@ -47,8 +53,8 @@ public class Main extends Application
 		height = 720;
 		
 		//Game Icon & Title
-		primaryStage.setTitle("sansbox");
-		primaryStage.getIcons().add(new Image("file:textures/sans.png"));
+		primaryStage.setTitle("CheckersFX");
+		primaryStage.getIcons().add(new Image("file:assets/textures/icon_v3.png"));
 		
 		//Width Configuration
 		primaryStage.setWidth(1280);
@@ -59,6 +65,9 @@ public class Main extends Application
 		primaryStage.setHeight(720);
 		primaryStage.setMinHeight(720);
 		primaryStage.setMaxHeight(1080);
+		
+		//Font
+        cavalier = Font.loadFont("file:assets/fonts/cavalier.ttf", 20);
 		
 		//Listenerst
 		primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> 
@@ -76,7 +85,7 @@ public class Main extends Application
         });
         
         //Background Music
-        AudioClip its_raining_somewhere_else = new AudioClip(Paths.get("audio/its_raining_somewhere_else.wav").toUri().toString());
+        AudioClip its_raining_somewhere_else = new AudioClip(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
         
         its_raining_somewhere_else.setVolume(0.025);
         its_raining_somewhere_else.setCycleCount(2147483647);
@@ -95,6 +104,20 @@ public class Main extends Application
         
         //Scene Creation
         Scene scene = new Scene(root, 1280, 720);
+        
+        //ACHTUNG DIESER LISTENER WURDE UNS VON ADRIAN GEKLAUT!!!
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() 
+        {
+            @Override
+            public void handle(KeyEvent t) 
+            {
+                KeyCode key = t.getCode();
+                if (key == KeyCode.ESCAPE) 
+                {
+                	back();
+                }
+            }
+        });
         
         //Main Menu Creation
         main_menu();
@@ -156,15 +179,21 @@ public class Main extends Application
 		Button button_sp = new Button("Singleplayer");
 		Button button_mp = new Button("Multiplayer");
 		Button button_settings = new Button("Settings");
+		Button button_htp = new Button("How To Play");
 		Button button_close = new Button("Close Game");
 		
 		button_sp.setId("menu_button");
 		button_sp.setMaxWidth(width / 4);
 		button_sp.setAlignment(Pos.CENTER);
+		button_sp.setFont(cavalier);
 		
 		button_mp.setId("menu_button");
 		button_mp.setMaxWidth(width / 4);
 		button_mp.setAlignment(Pos.CENTER);
+		
+		button_htp.setId("menu_button");
+		button_htp.setMaxWidth(width / 4);
+		button_htp.setAlignment(Pos.CENTER);
 		
 		button_settings.setId("menu_button");
 		button_settings.setMaxWidth(width / 4);
@@ -174,7 +203,7 @@ public class Main extends Application
 		button_close.setMaxWidth(width / 4);
 		button_close.setAlignment(Pos.CENTER);
 		
-		menu_buttons.getChildren().addAll(button_sp, button_mp, button_settings, button_close);
+		menu_buttons.getChildren().addAll(button_sp, button_mp, button_htp, button_settings, button_close);
 		menu_buttons.setAlignment(Pos.CENTER);
 		
 		//Button Functions
@@ -192,9 +221,18 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel Spaﬂ beim Programmieren des Mehrspielermodus', Niclas;
+            	//Viel Spa√ü beim Programmieren des Mehrspielermodus', Niclas;
             	
             	menu_multiplayer();
+            }
+        });
+
+		button_htp.setOnAction(new EventHandler<ActionEvent>() 
+		{
+            @Override
+            public void handle(ActionEvent actionEvent) 
+            {
+            	menu_htp();
             }
         });
 		
@@ -222,6 +260,7 @@ public class Main extends Application
 		//Menu ID change
 		this.menu_id = 2;
 		
+		//Remove Buttons from previous Menu
 		if(menu_buttons.getChildren().size() != 0)
 		{
 			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
@@ -251,6 +290,22 @@ public class Main extends Application
 		back_button.setAlignment(Pos.TOP_LEFT);
 	}
 	
+	public void menu_htp()
+	{
+		//Menu ID change
+		this.menu_id = 5;
+
+		//Remove Buttons from previous Menu
+		if(menu_buttons.getChildren().size() != 0)
+		{
+			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
+		}
+		
+		Text htp = new Text();
+		
+		htp.setFont(Font.loadFont("file:assets/fonts/", 120));
+	}
+	
 	public void menu_multiplayer()
 	{
 		this.menu_id = 3;
@@ -259,19 +314,42 @@ public class Main extends Application
 	public void menu_settings()
 	{
 		this.menu_id = 4;
-	}
-	
-	public void menu_close()
-	{
+		
+		//Remove Buttons from previous Menu
+		if(menu_buttons.getChildren().size() != 0)
+		{
+			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
+		}
+		
+		/*Slider music_volume = new Slider(0, 100, 100);
+		
+		music_volume.valueProperty().addListener(new ChangeListener<Number>() 
+		{
+            public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
+            {
+            	double newVolume = newValue.doubleValue() * 0.025;
+            	its_raining_somewhere_else.setVolume(newVolume);
+            }
+        });
+		
+		music_volume.setPrefSize(width, height);
+		menu_buttons.getChildren().add(music_volume);*/
 		
 	}
 	
 	public void back()
 	{
-		if(menu_id >= 2 && menu_id <= 4)
+		if(menu_id == 1)
 		{
-			main_menu();
+			primaryStage.close();
 		}
-
+		
+		if(menu_id >= 2 && menu_id <= 5)
+		{
+			menu_id = 1;
+			main_menu();
+			updateScreen();
+		}
+		
 	}
 }
