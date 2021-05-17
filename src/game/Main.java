@@ -18,6 +18,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -36,7 +38,8 @@ public class Main extends Application
 	
 	AudioClip its_raining_somewhere_else;
 	
-	Font cavalier;
+	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
+	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
 	
 	int menu_id;
 	
@@ -54,7 +57,7 @@ public class Main extends Application
 		
 		//Game Icon & Title
 		primaryStage.setTitle("CheckersFX");
-		primaryStage.getIcons().add(new Image("file:assets/textures/icon_v3.png"));
+		primaryStage.getIcons().add(new Image("file:assets/textures/icon.png"));
 		
 		//Width Configuration
 		primaryStage.setWidth(1280);
@@ -66,10 +69,7 @@ public class Main extends Application
 		primaryStage.setMinHeight(720);
 		primaryStage.setMaxHeight(1080);
 		
-		//Font
-        cavalier = Font.loadFont("file:assets/fonts/cavalier.ttf", 20);
-		
-		//Listenerst
+		//Listeners
 		primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> 
 		{
             width = (double) newVal;
@@ -85,11 +85,12 @@ public class Main extends Application
         });
         
         //Background Music
-        AudioClip its_raining_somewhere_else = new AudioClip(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
+        //AudioClip its_raining_somewhere_else = new AudioClip(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
+        mediaPlayer.setAutoPlay(true);
         
-        its_raining_somewhere_else.setVolume(0.025);
+        /*its_raining_somewhere_else.setVolume(0.025);
         its_raining_somewhere_else.setCycleCount(2147483647);
-        its_raining_somewhere_else.play();
+        its_raining_somewhere_else.play();*/
 		
         //Pane Creation
 		root = new Pane();
@@ -183,24 +184,23 @@ public class Main extends Application
 		Button button_close = new Button("Close Game");
 		
 		button_sp.setId("menu_button");
-		button_sp.setMaxWidth(width / 4);
+		button_sp.setMaxWidth(width / 3);
 		button_sp.setAlignment(Pos.CENTER);
-		button_sp.setFont(cavalier);
 		
 		button_mp.setId("menu_button");
-		button_mp.setMaxWidth(width / 4);
+		button_mp.setMaxWidth(width / 3);
 		button_mp.setAlignment(Pos.CENTER);
 		
 		button_htp.setId("menu_button");
-		button_htp.setMaxWidth(width / 4);
+		button_htp.setMaxWidth(width / 3);
 		button_htp.setAlignment(Pos.CENTER);
 		
 		button_settings.setId("menu_button");
-		button_settings.setMaxWidth(width / 4);
+		button_settings.setMaxWidth(width / 3);
 		button_settings.setAlignment(Pos.CENTER);
 		
 		button_close.setId("menu_button");
-		button_close.setMaxWidth(width / 4);
+		button_close.setMaxWidth(width / 3);
 		button_close.setAlignment(Pos.CENTER);
 		
 		menu_buttons.getChildren().addAll(button_sp, button_mp, button_htp, button_settings, button_close);
@@ -221,7 +221,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel Spaß beim Programmieren des Mehrspielermodus', Niclas;
+            	//Viel Spaß beim Programmieren des Mehrspielermodus, Niclas
             	
             	menu_multiplayer();
             }
@@ -272,15 +272,15 @@ public class Main extends Application
 		Button button_back = new Button("Back");
 		
 		button_white.setId("menu_button");
-		button_white.setMaxWidth(width / 4);
+		button_white.setMaxWidth(width / 3);
 		button_white.setAlignment(Pos.CENTER);
 		
 		button_black.setId("menu_button");
-		button_black.setMaxWidth(width / 4);
+		button_black.setMaxWidth(width / 3);
 		button_black.setAlignment(Pos.CENTER);
 		
 		button_back.setId("menu_button");
-		button_back.setMaxWidth(width / 4);
+		button_back.setMaxWidth(width / 3);
 		button_back.setAlignment(Pos.CENTER);
 		
 		menu_buttons.getChildren().addAll(button_white, button_black);

@@ -1,6 +1,6 @@
 @font-face {
-    font-family: 'Cavalier';
-    src: url('file:assets/fonts/cavalier.ttf');
+    font-family: 'Reggae One';
+    src: url('file:assets/fonts/font.ttf');
 }
 
 #root
@@ -14,7 +14,7 @@
     -fx-border-width: 3.0;
     -fx-border-radius: 10.0;
     -fx-background-color: transparent;
-    -fx-font-family:"Cavalier";
+    -fx-font-family:"Reggae One";
     /*-fx-font-family:"French Script MT", Helvetica, Arial, sans-serif;*/
     -fx-font-size: 4.0em;
     -fx-text-fill: white;
