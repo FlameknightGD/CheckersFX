@@ -40,6 +40,7 @@ public class Main extends Application
 	
 	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
+	double bgm_volume;
 	
 	int menu_id;
 	
@@ -87,6 +88,8 @@ public class Main extends Application
         //Background Music
         //AudioClip its_raining_somewhere_else = new AudioClip(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
         mediaPlayer.setAutoPlay(true);
+        bgm_volume = 0.025;
+        mediaPlayer.setVolume(bgm_volume);
         
         /*its_raining_somewhere_else.setVolume(0.025);
         its_raining_somewhere_else.setCycleCount(2147483647);
@@ -321,19 +324,20 @@ public class Main extends Application
 			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
 		}
 		
-		/*Slider music_volume = new Slider(0, 100, 100);
+		Slider music_volume = new Slider(0, 100, 100);
 		
 		music_volume.valueProperty().addListener(new ChangeListener<Number>() 
 		{
             public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
             {
             	double newVolume = newValue.doubleValue() * 0.025;
-            	its_raining_somewhere_else.setVolume(newVolume);
+            	mediaPlayer.setVolume(newVolume);
+            	bgm_volume = newVolume;
             }
         });
 		
 		music_volume.setPrefSize(width, height);
-		menu_buttons.getChildren().add(music_volume);*/
+		menu_buttons.getChildren().add(music_volume);
 		
 	}
 	
