@@ -35,6 +35,7 @@ public class Main extends Application
 	BorderPane pain = new BorderPane();
 	VBox menu_buttons = new VBox();
 	VBox back_button = new VBox();
+	VBox vol_slider = new VBox();
 	
 	AudioClip its_raining_somewhere_else;
 	
@@ -86,7 +87,6 @@ public class Main extends Application
         });
         
         //Background Music
-        //AudioClip its_raining_somewhere_else = new AudioClip(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
         mediaPlayer.setAutoPlay(true);
         bgm_volume = 0.025;
         mediaPlayer.setVolume(bgm_volume);
@@ -170,6 +170,15 @@ public class Main extends Application
 		else if(menu_id == 4)
 		{
 			menu_settings();
+			vol_slider.setPrefSize(width / 3, height / 1.5);
+		}
+		
+		if(menu_id >= 1 && menu_id <= 3)
+		{
+			if(vol_slider.getChildren().size() == 1)
+			{
+				vol_slider.getChildren().remove(0);
+			}
 		}
 	}
 	
@@ -224,7 +233,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel SpaÃŸ beim Programmieren des Mehrspielermodus, Niclas
+            	//Viel Spaß beim Programmieren des Mehrspielermodus, Niclas
             	
             	menu_multiplayer();
             }
@@ -304,6 +313,11 @@ public class Main extends Application
 			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
 		}
 		
+		if(vol_slider.getChildren().size() != 0)
+		{
+			vol_slider.getChildren().remove(0, menu_buttons.getChildren().size());
+		}
+		
 		Text htp = new Text();
 		
 		htp.setFont(Font.loadFont("file:assets/fonts/", 120));
@@ -326,19 +340,30 @@ public class Main extends Application
 		
 		Slider music_volume = new Slider(0, 100, 100);
 		
+		if(vol_slider.getChildren().size() == 0)
+		{
+			vol_slider.getChildren().add(music_volume);
+		}
+		
+		
+		vol_slider.setAlignment(Pos.CENTER);
+		vol_slider.setId("vbox_visible_border");
+		pain.setCenter(vol_slider);
+		
+		if(pain.getChildren().contains(vol_slider) == false)
+		{
+			pain.getChildren().add(vol_slider);
+		}
+		
 		music_volume.valueProperty().addListener(new ChangeListener<Number>() 
 		{
             public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
             {
-            	double newVolume = newValue.doubleValue() * 0.025;
+            	double newVolume = newValue.doubleValue() * 0.0025;
             	mediaPlayer.setVolume(newVolume);
             	bgm_volume = newVolume;
             }
         });
-		
-		music_volume.setPrefSize(width, height);
-		menu_buttons.getChildren().add(music_volume);
-		
 	}
 	
 	public void back()
