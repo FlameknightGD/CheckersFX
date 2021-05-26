@@ -1,5 +1,9 @@
 package game;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import javafx.application.Application;
@@ -38,6 +42,7 @@ public class Main extends Application
 	VBox vol_slider = new VBox();
 	
 	AudioClip its_raining_somewhere_else;
+	File config = new File("config/config.txt");
 	
 	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
@@ -175,9 +180,9 @@ public class Main extends Application
 		
 		if(menu_id >= 1 && menu_id <= 3)
 		{
-			if(vol_slider.getChildren().size() == 1)
+			if(pain.getChildren().size() == 1)
 			{
-				vol_slider.getChildren().remove(0);
+				pain.getChildren().remove(vol_slider);
 			}
 		}
 	}
@@ -345,7 +350,7 @@ public class Main extends Application
 			vol_slider.getChildren().add(music_volume);
 		}
 		
-		
+		vol_slider.setPrefSize(width / 3, height / 1.5);
 		vol_slider.setAlignment(Pos.CENTER);
 		vol_slider.setId("vbox_visible_border");
 		pain.setCenter(vol_slider);
@@ -362,6 +367,8 @@ public class Main extends Application
             	double newVolume = newValue.doubleValue() * 0.0025;
             	mediaPlayer.setVolume(newVolume);
             	bgm_volume = newVolume;
+            	
+            	
             }
         });
 	}
@@ -376,7 +383,6 @@ public class Main extends Application
 		if(menu_id >= 2 && menu_id <= 5)
 		{
 			menu_id = 1;
-			main_menu();
 			updateScreen();
 		}
 		
