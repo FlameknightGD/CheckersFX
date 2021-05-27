@@ -1,4 +1,4 @@
-package game;
+package application.game;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -260,7 +260,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel Spaß beim Programmieren des Mehrspielermodus, Niclas
+            	//Viel Spaï¿½ beim Programmieren des Mehrspielermodus, Niclas
             	
             	menu_multiplayer();
             }
