@@ -1,6 +1,9 @@
 package game;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,7 +45,7 @@ public class Main extends Application
 	VBox vol_slider = new VBox();
 	
 	AudioClip its_raining_somewhere_else;
-	File config = new File("config/config.txt");
+	File config;
 	
 	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
@@ -95,6 +98,25 @@ public class Main extends Application
         mediaPlayer.setAutoPlay(true);
         bgm_volume = 0.025;
         mediaPlayer.setVolume(bgm_volume);
+        
+        File config = new File("config/config.txt");
+        File readSettings = new File(config.toURI());
+        try (FileReader fr = new FileReader(readSettings); BufferedReader br = new BufferedReader(fr);) 
+        {
+            String line;
+            bgm_volume = this.bgm_volume;
+            System.out.println("Datei " + readSettings + ":");
+            
+            System.out.println(br.readLine());
+        } 
+        catch (FileNotFoundException e) 
+        {
+        	System.out.println("Error: File not found! :(");
+		} 
+        catch (IOException e) 
+        {
+			System.out.println("Oof, something went wrong! :(");
+		}
         
         /*its_raining_somewhere_else.setVolume(0.025);
         its_raining_somewhere_else.setCycleCount(2147483647);
@@ -368,7 +390,17 @@ public class Main extends Application
             	mediaPlayer.setVolume(newVolume);
             	bgm_volume = newVolume;
             	
-            	
+            	File config = new File("config/config.txt");
+                File saveSettings = new File(config.toURI());
+                try (FileWriter fw = new FileWriter(saveSettings); PrintWriter pw = new PrintWriter(fw);) 
+                {
+                    String fileSettings = "Background-Music-Volume: " + newValue;
+                    pw.write(fileSettings);
+                } 
+                catch (IOException exc) 
+                {
+                    System.out.println("Oof, something went wrong! :(");
+                }
             }
         });
 	}
