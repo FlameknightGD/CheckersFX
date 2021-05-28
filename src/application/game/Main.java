@@ -1,14 +1,8 @@
 package application.game;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 
+import application.utils.Config;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -18,18 +12,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -42,17 +32,17 @@ public class Main extends Application
 	double width;
 	double height;
 	
+	Config config;
+	
 	BorderPane pain = new BorderPane();
 	VBox menu_buttons = new VBox();
 	VBox back_button = new VBox();
 	VBox vol_slider = new VBox();
 	
-	AudioClip its_raining_somewhere_else;
-	File config;
-	
 	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
 	double bgm_volume;
+
 	
 	int menu_id;
 	
@@ -97,34 +87,15 @@ public class Main extends Application
             updateScreen();
         });
         
+        config = new Config("config/config.txt");
+        System.out.println(config.get("volume"));
+        
         //Background Music
         mediaPlayer.setAutoPlay(true);
-        bgm_volume = 0.025;
+        //bgm_volume =  Double.parseDouble(config.get("volume"));
         mediaPlayer.setVolume(bgm_volume);
+        mediaPlayer.setCycleCount(2147483647);
         
-        File config = new File("config/config.txt");
-        File readSettings = new File(config.toURI());
-        try (FileReader fr = new FileReader(readSettings); BufferedReader br = new BufferedReader(fr);) 
-        {
-            String line;
-            bgm_volume = this.bgm_volume;
-            System.out.println("Datei " + readSettings + ":");
-            
-            System.out.println(br.readLine());
-        } 
-        catch (FileNotFoundException e) 
-        {
-        	System.out.println("Error: File not found! :(");
-		} 
-        catch (IOException e) 
-        {
-			System.out.println("Oof, something went wrong! :(");
-		}
-        
-        /*its_raining_somewhere_else.setVolume(0.025);
-        its_raining_somewhere_else.setCycleCount(2147483647);
-        its_raining_somewhere_else.play();*/
-		
         //Pane Creation
 		root = new Pane();
         root.setId("root");
@@ -327,48 +298,6 @@ public class Main extends Application
 		
 		menu_buttons.getChildren().addAll(button_white, button_black);
 		menu_buttons.setAlignment(Pos.CENTER);
-		
-		button_white.setOnAction(new EventHandler<ActionEvent>() 
-		{		
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
-            	final int n = 8; // number of squares in each row and column
-                final int k = 75; // length of each square  in pixels
-                final int gap = 25; // padding around the board   
-                final int size = 2 * gap + n * k; // size of scene
-                Scene amogus = new Scene(root, size, size, Color.WHITE);
-
-                // Draw a completely black board (red squares will be added later).
-                Rectangle board = new Rectangle(gap, gap, n * k, n * k);
-                board.setFill(Color.BLACK);
-                root.getChildren().add(board);
-
-                // Add a drop shadow to the board.
-                DropShadow dropShadow = new DropShadow();
-                dropShadow.setOffsetY(12);
-                dropShadow.setOffsetX(12);
-                dropShadow.setColor(new Color(0.3, 0.3, 0.3, 1));
-                board.setEffect(dropShadow);
-
-                for (int row = 0; row < n; row++) 
-                {
-                    for (int col = 0; col < n; col++) 
-                    {
-                        if (row % 2 == col % 2) 
-                        {
-                            int x = gap + col * k;
-                            int y = gap + row * k;
-                            Rectangle rect = new Rectangle(x, y, k, k);
-                            rect.setFill(Color.FIREBRICK);
-                            root.getChildren().add(rect);
-                        }
-                    }
-                }
-
-                primaryStage.setScene(amogus);
-           }
-        });
 	}
 	
 	public void menu_htp()
@@ -432,17 +361,9 @@ public class Main extends Application
             	mediaPlayer.setVolume(newVolume);
             	bgm_volume = newVolume;
             	
-            	File config = new File("config/config.txt");
-                File saveSettings = new File(config.toURI());
-                try (FileWriter fw = new FileWriter(saveSettings); PrintWriter pw = new PrintWriter(fw);) 
-                {
-                    String fileSettings = "Background-Music-Volume: " + newValue;
-                    pw.write(fileSettings);
-                } 
-                catch (IOException exc) 
-                {
-                    System.out.println("Oof, something went wrong! :(");
-                }
+            	config = new Config("config/config.txt");
+            	config.put("volume", String.valueOf(newVolume));
+            	config.write();
             }
         });
 	}
