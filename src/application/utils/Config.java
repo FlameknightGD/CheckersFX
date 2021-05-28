@@ -54,7 +54,7 @@ public class Config extends HashMap<String, String>
 
         for (Entry<String, String> entry : this.entrySet())
         {
-            serialized.append(String.format("%s=%s\n", entry.getKey(), entry.getValue()));
+            serialized.append(String.format("%s%s%s\n", entry.getKey(), this.getSeperator(), entry.getValue()));
         }
 
         return serialized.toString();
@@ -112,10 +112,12 @@ public class Config extends HashMap<String, String>
     {
         if (o == this)
             return true;
+            
         if (!(o instanceof Config))
         {
             return false;
         }
+
         Config config = (Config) o;
         return Objects.equals(seperator, config.seperator) && Objects.equals(filePath, config.filePath);
     }

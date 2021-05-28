@@ -32,7 +32,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application
-{
+{	
 	Stage primaryStage;
 	Pane root;
 	
@@ -41,7 +41,7 @@ public class Main extends Application
 	
 	BorderPane pain = new BorderPane();
 	VBox menu_buttons = new VBox();
-	VBox back_button = new VBox();
+	VBox back_button = new VBox();	
 	VBox vol_slider = new VBox();
 	
 	AudioClip its_raining_somewhere_else;
@@ -181,23 +181,21 @@ public class Main extends Application
 	public void updateScreen()
 	{
 		menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
-		
-		if(menu_id == 1)
-		{
-			main_menu();
-		}
-		else if(menu_id == 2)
-		{
-			menu_singleplayer();
-		}
-		else if(menu_id == 3)
-		{
-			menu_multiplayer();
-		}
-		else if(menu_id == 4)
-		{
-			menu_settings();
-			vol_slider.setPrefSize(width / 3, height / 1.5);
+
+		switch (menu_id) {
+			case 1:
+				main_menu();
+				break;
+			case 2:
+				menu_singleplayer();
+				break;
+			case 3:
+				menu_multiplayer();
+				break;
+			case 4:
+				menu_settings();
+				vol_slider.setPrefSize(width / 3, height / 1.5);
+				break;
 		}
 		
 		if(menu_id >= 1 && menu_id <= 3)

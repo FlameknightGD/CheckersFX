@@ -1,1 +1,1 @@
-Background-Music-Volume: 40.2948402948403
+Background-Music-Volume: 0.0
