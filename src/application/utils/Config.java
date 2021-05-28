@@ -97,36 +97,26 @@ public class Config extends HashMap<String, String>
         this.seperator = seperator;
     }
 
-    public String getFilePath() {
+    public String getFilePath()
+    {
         return this.filePath;
     }
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(String filePath) 
+    {
         this.filePath = filePath;
     }
 
+    @Override
     public boolean equals(Object o)
     {
         if (o == this)
             return true;
-
         if (!(o instanceof Config))
+        {
             return false;
-        
-        Config Config = (Config) o;
-        return Objects.equals(seperator, Config.seperator);
-    }
-
-    public int hashCode()
-    {
-        return Objects.hashCode(seperator);
-    }
-
-
-    public String toString() {
-        return "{" +
-            " seperator='" + getSeperator() + "'" +
-            ", filePath='" + getFilePath() + "'" +
-            "}";
+        }
+        Config config = (Config) o;
+        return Objects.equals(seperator, config.seperator) && Objects.equals(filePath, config.filePath);
     }
 }
