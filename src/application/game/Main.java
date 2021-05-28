@@ -18,6 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,6 +28,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -260,7 +263,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel Spa� beim Programmieren des Mehrspielermodus, Niclas
+            	//Viel Spaß beim Programmieren des Mehrspielermodus, Niclas
             	
             	menu_multiplayer();
             }
@@ -325,8 +328,47 @@ public class Main extends Application
 		menu_buttons.getChildren().addAll(button_white, button_black);
 		menu_buttons.setAlignment(Pos.CENTER);
 		
-		back_button.getChildren().addAll(button_back);
-		back_button.setAlignment(Pos.TOP_LEFT);
+		button_white.setOnAction(new EventHandler<ActionEvent>() 
+		{		
+            @Override
+            public void handle(ActionEvent actionEvent) 
+            {
+            	final int n = 8; // number of squares in each row and column
+                final int k = 75; // length of each square  in pixels
+                final int gap = 25; // padding around the board   
+                final int size = 2 * gap + n * k; // size of scene
+                Scene amogus = new Scene(root, size, size, Color.WHITE);
+
+                // Draw a completely black board (red squares will be added later).
+                Rectangle board = new Rectangle(gap, gap, n * k, n * k);
+                board.setFill(Color.BLACK);
+                root.getChildren().add(board);
+
+                // Add a drop shadow to the board.
+                DropShadow dropShadow = new DropShadow();
+                dropShadow.setOffsetY(12);
+                dropShadow.setOffsetX(12);
+                dropShadow.setColor(new Color(0.3, 0.3, 0.3, 1));
+                board.setEffect(dropShadow);
+
+                for (int row = 0; row < n; row++) 
+                {
+                    for (int col = 0; col < n; col++) 
+                    {
+                        if (row % 2 == col % 2) 
+                        {
+                            int x = gap + col * k;
+                            int y = gap + row * k;
+                            Rectangle rect = new Rectangle(x, y, k, k);
+                            rect.setFill(Color.FIREBRICK);
+                            root.getChildren().add(rect);
+                        }
+                    }
+                }
+
+                primaryStage.setScene(amogus);
+           }
+        });
 	}
 	
 	public void menu_htp()
