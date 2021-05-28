@@ -1,14 +1,8 @@
 package application.game;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Paths;
 
+import application.utils.Config;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,7 +18,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -39,17 +32,17 @@ public class Main extends Application
 	double width;
 	double height;
 	
+	Config config;
+	
 	BorderPane pain = new BorderPane();
 	VBox menu_buttons = new VBox();
 	VBox back_button = new VBox();	
 	VBox vol_slider = new VBox();
 	
-	AudioClip its_raining_somewhere_else;
-	File config;
-	
 	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
 	double bgm_volume;
+
 	
 	int menu_id;
 	
@@ -94,34 +87,15 @@ public class Main extends Application
             updateScreen();
         });
         
+        config = new Config("config/config.txt");
+        System.out.println(config.get("volume"));
+        
         //Background Music
         mediaPlayer.setAutoPlay(true);
-        bgm_volume = 0.025;
+        //bgm_volume =  Double.parseDouble(config.get("volume"));
         mediaPlayer.setVolume(bgm_volume);
+        mediaPlayer.setCycleCount(2147483647);
         
-        File config = new File("config/config.txt");
-        File readSettings = new File(config.toURI());
-        try (FileReader fr = new FileReader(readSettings); BufferedReader br = new BufferedReader(fr);) 
-        {
-            String line;
-            bgm_volume = this.bgm_volume;
-            System.out.println("Datei " + readSettings + ":");
-            
-            System.out.println(br.readLine());
-        } 
-        catch (FileNotFoundException e) 
-        {
-        	System.out.println("Error: File not found! :(");
-		} 
-        catch (IOException e) 
-        {
-			System.out.println("Oof, something went wrong! :(");
-		}
-        
-        /*its_raining_somewhere_else.setVolume(0.025);
-        its_raining_somewhere_else.setCycleCount(2147483647);
-        its_raining_somewhere_else.play();*/
-		
         //Pane Creation
 		root = new Pane();
         root.setId("root");
@@ -258,7 +232,7 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	//Viel Spa� beim Programmieren des Mehrspielermodus, Niclas
+            	//Viel Spaß beim Programmieren des Mehrspielermodus, Niclas
             	
             	menu_multiplayer();
             }
@@ -322,9 +296,6 @@ public class Main extends Application
 		
 		menu_buttons.getChildren().addAll(button_white, button_black);
 		menu_buttons.setAlignment(Pos.CENTER);
-		
-		back_button.getChildren().addAll(button_back);
-		back_button.setAlignment(Pos.TOP_LEFT);
 	}
 	
 	public void menu_htp()
@@ -388,17 +359,9 @@ public class Main extends Application
             	mediaPlayer.setVolume(newVolume);
             	bgm_volume = newVolume;
             	
-            	File config = new File("config/config.txt");
-                File saveSettings = new File(config.toURI());
-                try (FileWriter fw = new FileWriter(saveSettings); PrintWriter pw = new PrintWriter(fw);) 
-                {
-                    String fileSettings = "Background-Music-Volume: " + newValue;
-                    pw.write(fileSettings);
-                } 
-                catch (IOException exc) 
-                {
-                    System.out.println("Oof, something went wrong! :(");
-                }
+            	config = new Config("config/config.txt");
+            	config.put("volume", String.valueOf(newVolume));
+            	config.write();
             }
         });
 	}
