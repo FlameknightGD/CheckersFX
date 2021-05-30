@@ -8,6 +8,11 @@
 	-fx-background-color: black;
 }
 
+#board
+{
+	fx-background-color: black;
+}
+
 #menu_button 
 {
 	-fx-border-color: white;

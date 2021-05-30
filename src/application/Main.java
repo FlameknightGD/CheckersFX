@@ -1,4 +1,4 @@
-package application.game;
+package application;
 
 import java.nio.file.Paths;
 
@@ -8,6 +8,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -16,7 +17,9 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -32,9 +35,11 @@ public class Main extends Application
 	double width;
 	double height;
 	
-	Config config;
+	Config config = new Config("config\\config.txt");
 	
 	BorderPane pain = new BorderPane();
+	GridPane obunga = new GridPane();
+	
 	VBox menu_buttons = new VBox();
 	VBox back_button = new VBox();
 	VBox vol_slider = new VBox();
@@ -87,7 +92,6 @@ public class Main extends Application
             updateScreen();
         });
         
-        config = new Config("config/config.txt");
         System.out.println(config.get("volume"));
         
         //Background Music
@@ -95,6 +99,9 @@ public class Main extends Application
         //bgm_volume =  Double.parseDouble(config.get("volume"));
         mediaPlayer.setVolume(bgm_volume);
         mediaPlayer.setCycleCount(2147483647);
+        
+        obunga.setPadding(new Insets(28, 448, 28, 448));
+        obunga.setId("board");
         
         //Pane Creation
 		root = new Pane();
@@ -298,6 +305,98 @@ public class Main extends Application
 		
 		menu_buttons.getChildren().addAll(button_white, button_black);
 		menu_buttons.setAlignment(Pos.CENTER);
+		
+		button_white.setOnAction(new EventHandler<ActionEvent>() 
+		{
+            @Override
+            public void handle(ActionEvent actionEvent) 
+            {
+            	Scene checkersBoardWhite = new Scene(obunga);
+            	primaryStage.setScene(checkersBoardWhite);
+            	
+            	//Spaces
+            	Button space00 = new Button("");
+            	Button space01 = new Button("");
+            	Button space02 = new Button("");
+            	Button space03 = new Button("");
+            	Button space04 = new Button("");
+            	Button space05 = new Button("");
+            	Button space06 = new Button("");
+            	Button space07 = new Button("");
+            	
+            	Button space10 = new Button("");
+            	Button space11 = new Button("");
+            	Button space12 = new Button("");
+            	Button space13 = new Button("");
+            	Button space14 = new Button("");
+            	Button space15 = new Button("");
+            	Button space16 = new Button("");
+            	Button space17 = new Button("");
+            	
+            	Button space20 = new Button("");
+            	Button space21 = new Button("");
+            	Button space22 = new Button("");
+            	Button space23 = new Button("");
+            	Button space24 = new Button("");
+            	Button space25 = new Button("");
+            	Button space26 = new Button("");
+            	Button space27 = new Button("");
+            	
+            	Button space30 = new Button("");
+            	Button space31 = new Button("");
+            	Button space32 = new Button("");
+            	Button space33 = new Button("");
+            	Button space34 = new Button("");
+            	Button space35 = new Button("");
+            	Button space36 = new Button("");
+            	Button space37 = new Button("");
+            	
+            	Button space40 = new Button("");
+            	Button space41 = new Button("");
+            	Button space42 = new Button("");
+            	Button space43 = new Button("");
+            	Button space44 = new Button("");
+            	Button space45 = new Button("");
+            	Button space46 = new Button("");
+            	Button space47 = new Button("");
+            	
+            	Button space50 = new Button("");
+            	Button space51 = new Button("");
+            	Button space52 = new Button("");
+            	Button space53 = new Button("");
+            	Button space54 = new Button("");
+            	Button space55 = new Button("");
+            	Button space56 = new Button("");
+            	Button space57 = new Button("");
+            	
+            	Button space60 = new Button("");
+            	Button space61 = new Button("");
+            	Button space62 = new Button("");
+            	Button space63 = new Button("");
+            	Button space64 = new Button("");
+            	Button space65 = new Button("");
+            	Button space66 = new Button("");
+            	Button space67 = new Button("");
+            	
+            	Button space70 = new Button("");
+            	Button space71 = new Button("");
+            	Button space72 = new Button("");
+            	Button space73 = new Button("");
+            	Button space74 = new Button("");
+            	Button space75 = new Button("");
+            	Button space76 = new Button("");
+            	Button space77 = new Button("");
+            	
+            	space00.setId("boardSpace");
+            	space00.setPrefSize(128, 128);
+            	
+            	space01.setId("space00");
+            	space01.setPrefSize(128, 128);
+            	
+            	space02.setId("space00");
+            	space02.setPrefSize(128, 128);
+            }
+        });
 	}
 	
 	public void menu_htp()
@@ -361,7 +460,6 @@ public class Main extends Application
             	mediaPlayer.setVolume(newVolume);
             	bgm_volume = newVolume;
             	
-            	config = new Config("config/config.txt");
             	config.put("volume", String.valueOf(newVolume));
             	config.write();
             }

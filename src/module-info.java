@@ -5,5 +5,5 @@ module checkers_game
 	requires javafx.base;
 	requires javafx.media;
 	
-	opens application.game;
+	opens application;
 }
