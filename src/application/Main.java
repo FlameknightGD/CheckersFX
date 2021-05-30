@@ -388,10 +388,10 @@ public class Main extends Application
             	space00.setId("boardSpace");
             	space00.setPrefSize(128, 128);
             	
-            	space01.setId("space00");
+            	space01.setId("boardSpace");
             	space01.setPrefSize(128, 128);
             	
-            	space02.setId("space00");
+            	space02.setId("boardSpace");
             	space02.setPrefSize(128, 128);
             }
         });
