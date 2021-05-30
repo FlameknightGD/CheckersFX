@@ -149,7 +149,6 @@ public class Main extends Application
 	{
 		double multiplier = newValue / oldValue;
         root.setPrefWidth(oldValue * multiplier);
-        //pain.setPrefWidth(oldValue * multiplier);
         menu_buttons.setPrefWidth(oldValue * multiplier);
 	}
 	
@@ -157,7 +156,6 @@ public class Main extends Application
 	{
 		double multiplier = newValue / oldValue;
         root.setPrefHeight(oldValue * multiplier);
-        //pain.setPrefHeight(oldValue * multiplier);
         menu_buttons.setPrefHeight(oldValue * multiplier);
 	}
 	
@@ -312,9 +310,10 @@ public class Main extends Application
             @Override
             public void handle(ActionEvent actionEvent) 
             {
+            	obunga.setStyle("-fx-background-color: #000000");
             	Scene checkersBoardWhite = new Scene(obunga);
-            	primaryStage.setScene(checkersBoardWhite);
             	
+            	primaryStage.setScene(checkersBoardWhite);
 
             	Button[][] boardSpaces = new Button[8][8];
             	
