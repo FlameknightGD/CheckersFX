@@ -580,7 +580,8 @@ public class Main extends Application
             	space77.setId("boardSpace");
             	space77.setPrefSize(128, 128);
             	
-            });
+            	
+            }});
 	}
 	
 	public void menu_htp()
