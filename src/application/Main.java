@@ -393,8 +393,194 @@ public class Main extends Application
             	
             	space02.setId("boardSpace");
             	space02.setPrefSize(128, 128);
-            }
-        });
+            	
+            	space03.setId("boardSpace");
+            	space03.setPrefSize(128, 128);
+            	
+            	space04.setId("boardSpace");
+            	space04.setPrefSize(128, 128);
+            	
+            	space04.setId("boardSpace");
+            	space04.setPrefSize(128, 128);
+            	
+            	space05.setId("boardSpace");
+            	space05.setPrefSize(128, 128);
+            	
+            	space06.setId("boardSpace");
+            	space06.setPrefSize(128, 128);
+            	
+            	space07.setId("boardSpace");
+            	space07.setPrefSize(128, 128);
+            	
+            	space10.setId("boardSpace");
+            	space10.setPrefSize(128, 128);
+            	
+            	space11.setId("boardSpace");
+            	space11.setPrefSize(128, 128);
+            	
+            	space12.setId("boardSpace");
+            	space12.setPrefSize(128, 128);
+            	
+            	space13.setId("boardSpace");
+            	space13.setPrefSize(128, 128);
+            	
+            	space14.setId("boardSpace");
+            	space14.setPrefSize(128, 128);
+            	
+            	space15.setId("boardSpace");
+            	space15.setPrefSize(128, 128);
+            	
+            	space16.setId("boardSpace");
+            	space16.setPrefSize(128, 128);
+            	
+            	space17.setId("boardSpace");
+            	space17.setPrefSize(128, 128);
+            	
+            	space20.setId("boardSpace");
+            	space20.setPrefSize(128, 128);
+            	
+            	space21.setId("boardSpace");
+            	space21.setPrefSize(128, 128);
+            	
+            	space22.setId("boardSpace");
+            	space22.setPrefSize(128, 128);
+            	
+            	space23.setId("boardSpace");
+            	space23.setPrefSize(128, 128);
+            	
+            	space24.setId("boardSpace");
+            	space24.setPrefSize(128, 128);
+            	
+            	space25.setId("boardSpace");
+            	space25.setPrefSize(128, 128);
+            	
+            	space26.setId("boardSpace");
+            	space26.setPrefSize(128, 128);
+            	
+            	space27.setId("boardSpace");
+            	space27.setPrefSize(128, 128);
+            	
+            	space30.setId("boardSpace");
+            	space30.setPrefSize(128, 128);
+            	
+            	space31.setId("boardSpace");
+            	space31.setPrefSize(128, 128);
+            	
+            	space32.setId("boardSpace");
+            	space32.setPrefSize(128, 128);
+            	
+            	space33.setId("boardSpace");
+            	space33.setPrefSize(128, 128);
+            	
+            	space34.setId("boardSpace");
+            	space34.setPrefSize(128, 128);
+            	
+            	space35.setId("boardSpace");
+            	space35.setPrefSize(128, 128);
+            	
+            	space36.setId("boardSpace");
+            	space36.setPrefSize(128, 128);
+            	
+            	space37.setId("boardSpace");
+            	space37.setPrefSize(128, 128);
+            	
+            	space40.setId("boardSpace");
+            	space40.setPrefSize(128, 128);
+            	
+            	space41.setId("boardSpace");
+            	space41.setPrefSize(128, 128);
+            	
+            	space42.setId("boardSpace");
+            	space42.setPrefSize(128, 128);
+            	
+            	space43.setId("boardSpace");
+            	space43.setPrefSize(128, 128);
+            	
+            	space44.setId("boardSpace");
+            	space44.setPrefSize(128, 128);
+            	
+            	space45.setId("boardSpace");
+            	space45.setPrefSize(128, 128);
+            	
+            	space46.setId("boardSpace");
+            	space46.setPrefSize(128, 128);
+            	
+            	space47.setId("boardSpace");
+            	space47.setPrefSize(128, 128);
+            	
+            	space50.setId("boardSpace");
+            	space50.setPrefSize(128, 128);
+            	
+            	space51.setId("boardSpace");
+            	space51.setPrefSize(128, 128);
+            	
+            	space52.setId("boardSpace");
+            	space52.setPrefSize(128, 128);
+            	
+            	space53.setId("boardSpace");
+            	space53.setPrefSize(128, 128);
+            	
+            	space54.setId("boardSpace");
+            	space54.setPrefSize(128, 128);
+            	
+            	space55.setId("boardSpace");
+            	space55.setPrefSize(128, 128);
+            	
+            	space56.setId("boardSpace");
+            	space56.setPrefSize(128, 128);
+            	
+            	space57.setId("boardSpace");
+            	space57.setPrefSize(128, 128);
+            	
+            	space60.setId("boardSpace");
+            	space60.setPrefSize(128, 128);
+            	
+            	space61.setId("boardSpace");
+            	space61.setPrefSize(128, 128);
+            	
+            	space62.setId("boardSpace");
+            	space62.setPrefSize(128, 128);
+            	
+            	space63.setId("boardSpace");
+            	space63.setPrefSize(128, 128);
+            	
+            	space64.setId("boardSpace");
+            	space64.setPrefSize(128, 128);
+            	
+            	space65.setId("boardSpace");
+            	space65.setPrefSize(128, 128);
+            	
+            	space66.setId("boardSpace");
+            	space66.setPrefSize(128, 128);
+            	
+            	space67.setId("boardSpace");
+            	space67.setPrefSize(128, 128);
+            	
+            	space70.setId("boardSpace");
+            	space70.setPrefSize(128, 128);
+            	
+            	space71.setId("boardSpace");
+            	space71.setPrefSize(128, 128);
+            	
+            	space72.setId("boardSpace");
+            	space72.setPrefSize(128, 128);
+            	
+            	space73.setId("boardSpace");
+            	space73.setPrefSize(128, 128);
+            	
+            	space74.setId("boardSpace");
+            	space74.setPrefSize(128, 128);
+            	
+            	space75.setId("boardSpace");
+            	space75.setPrefSize(128, 128);
+            	
+            	space76.setId("boardSpace");
+            	space76.setPrefSize(128, 128);
+            	
+            	space77.setId("boardSpace");
+            	space77.setPrefSize(128, 128);
+            	
+            });
 	}
 	
 	public void menu_htp()
