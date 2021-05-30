@@ -8,9 +8,9 @@
 	-fx-background-color: black;
 }
 
-#board
+#boardSpaceBeige
 {
-	fx-background-color: black;
+	-fx-background-color: #daa138;
 }
 
 #menu_button 

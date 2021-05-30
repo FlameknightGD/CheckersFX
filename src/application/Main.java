@@ -1,6 +1,8 @@
 package application;
 
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import application.utils.Config;
 import javafx.application.Application;
@@ -10,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -312,275 +315,30 @@ public class Main extends Application
             	Scene checkersBoardWhite = new Scene(obunga);
             	primaryStage.setScene(checkersBoardWhite);
             	
-            	//Spaces
-            	Button space00 = new Button("");
-            	Button space01 = new Button("");
-            	Button space02 = new Button("");
-            	Button space03 = new Button("");
-            	Button space04 = new Button("");
-            	Button space05 = new Button("");
-            	Button space06 = new Button("");
-            	Button space07 = new Button("");
-            	
-            	Button space10 = new Button("");
-            	Button space11 = new Button("");
-            	Button space12 = new Button("");
-            	Button space13 = new Button("");
-            	Button space14 = new Button("");
-            	Button space15 = new Button("");
-            	Button space16 = new Button("");
-            	Button space17 = new Button("");
-            	
-            	Button space20 = new Button("");
-            	Button space21 = new Button("");
-            	Button space22 = new Button("");
-            	Button space23 = new Button("");
-            	Button space24 = new Button("");
-            	Button space25 = new Button("");
-            	Button space26 = new Button("");
-            	Button space27 = new Button("");
-            	
-            	Button space30 = new Button("");
-            	Button space31 = new Button("");
-            	Button space32 = new Button("");
-            	Button space33 = new Button("");
-            	Button space34 = new Button("");
-            	Button space35 = new Button("");
-            	Button space36 = new Button("");
-            	Button space37 = new Button("");
-            	
-            	Button space40 = new Button("");
-            	Button space41 = new Button("");
-            	Button space42 = new Button("");
-            	Button space43 = new Button("");
-            	Button space44 = new Button("");
-            	Button space45 = new Button("");
-            	Button space46 = new Button("");
-            	Button space47 = new Button("");
-            	
-            	Button space50 = new Button("");
-            	Button space51 = new Button("");
-            	Button space52 = new Button("");
-            	Button space53 = new Button("");
-            	Button space54 = new Button("");
-            	Button space55 = new Button("");
-            	Button space56 = new Button("");
-            	Button space57 = new Button("");
-            	
-            	Button space60 = new Button("");
-            	Button space61 = new Button("");
-            	Button space62 = new Button("");
-            	Button space63 = new Button("");
-            	Button space64 = new Button("");
-            	Button space65 = new Button("");
-            	Button space66 = new Button("");
-            	Button space67 = new Button("");
-            	
-            	Button space70 = new Button("");
-            	Button space71 = new Button("");
-            	Button space72 = new Button("");
-            	Button space73 = new Button("");
-            	Button space74 = new Button("");
-            	Button space75 = new Button("");
-            	Button space76 = new Button("");
-            	Button space77 = new Button("");
-            	
-            	space00.setId("boardSpace");
-            	space00.setPrefSize(128, 128);
-            	
-            	space01.setId("boardSpace");
-            	space01.setPrefSize(128, 128);
-            	
-            	space02.setId("boardSpace");
-            	space02.setPrefSize(128, 128);
-            	
-            	space03.setId("boardSpace");
-            	space03.setPrefSize(128, 128);
-            	
-            	space04.setId("boardSpace");
-            	space04.setPrefSize(128, 128);
-            	
-            	space04.setId("boardSpace");
-            	space04.setPrefSize(128, 128);
-            	
-            	space05.setId("boardSpace");
-            	space05.setPrefSize(128, 128);
-            	
-            	space06.setId("boardSpace");
-            	space06.setPrefSize(128, 128);
-            	
-            	space07.setId("boardSpace");
-            	space07.setPrefSize(128, 128);
-            	
-            	space10.setId("boardSpace");
-            	space10.setPrefSize(128, 128);
-            	
-            	space11.setId("boardSpace");
-            	space11.setPrefSize(128, 128);
-            	
-            	space12.setId("boardSpace");
-            	space12.setPrefSize(128, 128);
-            	
-            	space13.setId("boardSpace");
-            	space13.setPrefSize(128, 128);
-            	
-            	space14.setId("boardSpace");
-            	space14.setPrefSize(128, 128);
-            	
-            	space15.setId("boardSpace");
-            	space15.setPrefSize(128, 128);
-            	
-            	space16.setId("boardSpace");
-            	space16.setPrefSize(128, 128);
-            	
-            	space17.setId("boardSpace");
-            	space17.setPrefSize(128, 128);
-            	
-            	space20.setId("boardSpace");
-            	space20.setPrefSize(128, 128);
-            	
-            	space21.setId("boardSpace");
-            	space21.setPrefSize(128, 128);
-            	
-            	space22.setId("boardSpace");
-            	space22.setPrefSize(128, 128);
-            	
-            	space23.setId("boardSpace");
-            	space23.setPrefSize(128, 128);
-            	
-            	space24.setId("boardSpace");
-            	space24.setPrefSize(128, 128);
-            	
-            	space25.setId("boardSpace");
-            	space25.setPrefSize(128, 128);
-            	
-            	space26.setId("boardSpace");
-            	space26.setPrefSize(128, 128);
-            	
-            	space27.setId("boardSpace");
-            	space27.setPrefSize(128, 128);
-            	
-            	space30.setId("boardSpace");
-            	space30.setPrefSize(128, 128);
-            	
-            	space31.setId("boardSpace");
-            	space31.setPrefSize(128, 128);
-            	
-            	space32.setId("boardSpace");
-            	space32.setPrefSize(128, 128);
-            	
-            	space33.setId("boardSpace");
-            	space33.setPrefSize(128, 128);
-            	
-            	space34.setId("boardSpace");
-            	space34.setPrefSize(128, 128);
-            	
-            	space35.setId("boardSpace");
-            	space35.setPrefSize(128, 128);
-            	
-            	space36.setId("boardSpace");
-            	space36.setPrefSize(128, 128);
-            	
-            	space37.setId("boardSpace");
-            	space37.setPrefSize(128, 128);
-            	
-            	space40.setId("boardSpace");
-            	space40.setPrefSize(128, 128);
-            	
-            	space41.setId("boardSpace");
-            	space41.setPrefSize(128, 128);
-            	
-            	space42.setId("boardSpace");
-            	space42.setPrefSize(128, 128);
-            	
-            	space43.setId("boardSpace");
-            	space43.setPrefSize(128, 128);
-            	
-            	space44.setId("boardSpace");
-            	space44.setPrefSize(128, 128);
-            	
-            	space45.setId("boardSpace");
-            	space45.setPrefSize(128, 128);
-            	
-            	space46.setId("boardSpace");
-            	space46.setPrefSize(128, 128);
-            	
-            	space47.setId("boardSpace");
-            	space47.setPrefSize(128, 128);
-            	
-            	space50.setId("boardSpace");
-            	space50.setPrefSize(128, 128);
-            	
-            	space51.setId("boardSpace");
-            	space51.setPrefSize(128, 128);
-            	
-            	space52.setId("boardSpace");
-            	space52.setPrefSize(128, 128);
-            	
-            	space53.setId("boardSpace");
-            	space53.setPrefSize(128, 128);
-            	
-            	space54.setId("boardSpace");
-            	space54.setPrefSize(128, 128);
-            	
-            	space55.setId("boardSpace");
-            	space55.setPrefSize(128, 128);
-            	
-            	space56.setId("boardSpace");
-            	space56.setPrefSize(128, 128);
-            	
-            	space57.setId("boardSpace");
-            	space57.setPrefSize(128, 128);
-            	
-            	space60.setId("boardSpace");
-            	space60.setPrefSize(128, 128);
-            	
-            	space61.setId("boardSpace");
-            	space61.setPrefSize(128, 128);
-            	
-            	space62.setId("boardSpace");
-            	space62.setPrefSize(128, 128);
-            	
-            	space63.setId("boardSpace");
-            	space63.setPrefSize(128, 128);
-            	
-            	space64.setId("boardSpace");
-            	space64.setPrefSize(128, 128);
-            	
-            	space65.setId("boardSpace");
-            	space65.setPrefSize(128, 128);
-            	
-            	space66.setId("boardSpace");
-            	space66.setPrefSize(128, 128);
-            	
-            	space67.setId("boardSpace");
-            	space67.setPrefSize(128, 128);
-            	
-            	space70.setId("boardSpace");
-            	space70.setPrefSize(128, 128);
-            	
-            	space71.setId("boardSpace");
-            	space71.setPrefSize(128, 128);
-            	
-            	space72.setId("boardSpace");
-            	space72.setPrefSize(128, 128);
-            	
-            	space73.setId("boardSpace");
-            	space73.setPrefSize(128, 128);
-            	
-            	space74.setId("boardSpace");
-            	space74.setPrefSize(128, 128);
-            	
-            	space75.setId("boardSpace");
-            	space75.setPrefSize(128, 128);
-            	
-            	space76.setId("boardSpace");
-            	space76.setPrefSize(128, 128);
-            	
-            	space77.setId("boardSpace");
-            	space77.setPrefSize(128, 128);
-            	
-            	
+
+            	Button[][] boardSpaces = new Button[8][8];
+            	
+            	for(int i = 0; i < 8; i++)
+            	{
+            		for(int j = 0; j < 8; j++)
+            		{
+            			Button space = new Button("");
+            			space.setId("boardSpace");
+            			space.setPrefSize(128, 128);
+            			
+            			if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1)
+            			{
+            				space.setStyle("-fx-background-color: #d3a74d");
+            			}
+            			else
+            			{
+            				space.setStyle("-fx-background-color: #312206");
+            			}
+            			
+            			boardSpaces[i][j] = space;
+            			obunga.add(space, i, j);
+            		}
+            	}
             }});
 	}
 	
