@@ -46,7 +46,7 @@ public class Main extends Application
 	GridPane checkerBoard = new GridPane();
 	
 	VBox menuButtons = new VBox();
-	VBox volSlider = new VBox();
+	VBox vBoxVolumeSlider = new VBox();
 	
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer backgroundMusicPlayer = new MediaPlayer(backgroundMusic);
@@ -145,7 +145,7 @@ public class Main extends Application
         primaryStage.show();
     }
 	
-	//Dynamic Window Methods
+	//Update Width
 	public void updateWidth(double newValue, double oldValue)
 	{
 		double multiplier = newValue / oldValue;
@@ -153,6 +153,7 @@ public class Main extends Application
         menuButtons.setPrefWidth(oldValue * multiplier);
 	}
 	
+	//Update Height
 	public void updateHeight(double newValue, double oldValue)
 	{
 		double multiplier = newValue / oldValue;
@@ -160,49 +161,62 @@ public class Main extends Application
         menuButtons.setPrefHeight(oldValue * multiplier);
 	}
 	
-	//Screen Update
+	//Update Screen
 	public void updateScreen()
 	{
+		//Remove Children From Previous Menu
 		menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 
+		//Update Screen And Delete Unwanted Children From MenuPane
 		switch (menuId) {
 			case 1:
 				mainMenu();
+				switch (menuPane.getChildren().size())
+				{
+					case 1: 
+						menuPane.getChildren().remove(vBoxVolumeSlider);
+						break;
+				}
 				break;
 			case 2:
 				menuSingleplayer();
+				switch (menuPane.getChildren().size())
+				{
+					case 1: 
+						menuPane.getChildren().remove(vBoxVolumeSlider);
+						break;
+				}
 				break;
 			case 3:
 				menuMultiplayer();
+				switch (menuPane.getChildren().size())
+				{
+					case 1: 
+						menuPane.getChildren().remove(vBoxVolumeSlider);
+						break;
+				}
 				break;
 			case 4:
 				menuSettings();
-				volSlider.setPrefSize(width / 3, height / 1.5);
+				vBoxVolumeSlider.setPrefSize(width / 3, height / 1.5);
 				break;
-		}
-		
-		if(menuId >= 1 && menuId <= 3)
-		{
-			if(menuPane.getChildren().size() == 1)
-			{
-				menuPane.getChildren().remove(volSlider);
-			}
 		}
 	}
 	
-	//Main Menu
+	//Main Menu Method
 	public void mainMenu()
 	{
-		//Menu ID change
-		menuId = 1;
+		//Set Menu ID
+		setMenuId(1);
 		
-		//Buttons
+		//Initialize Buttons
 		Button buttonSingleplayer = new Button("Singleplayer");
 		Button buttonMultiplayer = new Button("Multiplayer");
 		Button buttonHowToPlay = new Button("How To Play");
 		Button buttonSettings = new Button("Settings");
 		Button buttonClose = new Button("Close Game");
 		
+		//Configure Buttons
 		buttonSingleplayer.setId("menu_button");
 		buttonSingleplayer.setMaxWidth(width / 3);
 		buttonSingleplayer.setAlignment(Pos.CENTER);
@@ -223,6 +237,7 @@ public class Main extends Application
 		buttonClose.setMaxWidth(width / 3);
 		buttonClose.setAlignment(Pos.CENTER);
 		
+		//Add Buttons To MenuButtons VBox
 		menuButtons.getChildren().addAll(buttonSingleplayer, buttonMultiplayer, buttonHowToPlay, buttonSettings, buttonClose);
 		menuButtons.setAlignment(Pos.CENTER);
 		
@@ -253,10 +268,11 @@ public class Main extends Application
 		});
 	}
 	
+	//Singleplayer Menu Method
 	public void menuSingleplayer()
 	{
-		//Menu ID change
-		this.menuId = 2;
+		//Set Menu ID
+		setMenuId(2);
 		
 		//Remove Buttons from previous Menu
 		if(menuButtons.getChildren().size() != 0)
@@ -337,7 +353,8 @@ public class Main extends Application
 	
 	public void menuSettings()
 	{
-		this.menuId = 4;
+		//Set Menu ID
+		setMenuId(4);
 		
 		//Remove Buttons from previous Menu
 		if(menuButtons.getChildren().size() != 0)
@@ -345,24 +362,24 @@ public class Main extends Application
 			menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 		}
 		
-		Slider music_volume = new Slider(0, 100, 100);
+		Slider volumeSlider = new Slider(0, 100, 100);
 		
-		if(volSlider.getChildren().size() == 0)
+		if(vBoxVolumeSlider.getChildren().size() == 0)
 		{
-			volSlider.getChildren().add(music_volume);
+			vBoxVolumeSlider.getChildren().add(volumeSlider);
 		}
 		
-		volSlider.setPrefSize(width / 3, height / 1.5);
-		volSlider.setAlignment(Pos.CENTER);
-		volSlider.setId("vbox_visible_border");
-		menuPane.setCenter(volSlider);
+		vBoxVolumeSlider.setPrefSize(width / 3, height / 1.5);
+		vBoxVolumeSlider.setAlignment(Pos.CENTER);
+		vBoxVolumeSlider.setId("vbox_visible_border");
+		menuPane.setCenter(vBoxVolumeSlider);
 		
-		if(menuPane.getChildren().contains(volSlider) == false)
+		if(menuPane.getChildren().contains(vBoxVolumeSlider) == false)
 		{
-			menuPane.getChildren().add(volSlider);
+			menuPane.getChildren().add(vBoxVolumeSlider);
 		}
 		
-		music_volume.valueProperty().addListener(new ChangeListener<Number>() 
+		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() 
 		{
             public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
             {
@@ -376,6 +393,7 @@ public class Main extends Application
         });
 	}
 	
+	//Back Method
 	public void back()
 	{
 		switch(menuId) 
@@ -387,21 +405,27 @@ public class Main extends Application
 				
 			//Go Back To Main Menu
 			case 2:
-				menuId = 1;
+				setMenuId(1);
 				updateScreen();
 				break;
 			case 3:
-				menuId = 1;
+				setMenuId(1);
 				updateScreen();
 				break;
 			case 4:
-				menuId = 1;
+				setMenuId(1);
 				updateScreen();
 				break;
 			case 5:
-				menuId = 1;
+				setMenuId(1);
 				updateScreen();
 				break;
 		}
+	}
+	
+	//Setters
+	public void setMenuId(int menuId) 
+	{
+		this.menuId = menuId;
 	}
 }

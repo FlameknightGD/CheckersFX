@@ -5,7 +5,7 @@
 
 #board
 {
-	-fx-background-color: black;
+	-fx-background-image: url("../../assets/textures/background_image.png");
 }
 
 #menu_button 
@@ -33,7 +33,7 @@
 
 #root
 {
-	-fx-background-color: black;
+	-fx-background-image: url("../../assets/textures/background_image.png");
 }
 
 #vbox_visible_border
