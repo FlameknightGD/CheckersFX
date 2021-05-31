@@ -14,6 +14,8 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -40,19 +42,18 @@ public class Main extends Application
 	
 	Config config = new Config("config\\config.txt");
 	
-	BorderPane pain = new BorderPane();
-	GridPane obunga = new GridPane();
+	BorderPane menuPane = new BorderPane();
+	GridPane checkerBoard = new GridPane();
 	
-	VBox menu_buttons = new VBox();
-	VBox back_button = new VBox();	
-	VBox vol_slider = new VBox();
+	VBox menuButtons = new VBox();
+	VBox volSlider = new VBox();
 	
-	Media bgm = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
-	MediaPlayer mediaPlayer = new MediaPlayer(bgm);
-	double bgm_volume;
+	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
+	MediaPlayer backgroundMusicPlayer = new MediaPlayer(backgroundMusic);
+	double backgroundMusicVolume;
 
 	
-	int menu_id;
+	int menuId;
 	
 	public static void main(String[] args) 
 	{
@@ -98,24 +99,24 @@ public class Main extends Application
         System.out.println(config.get("volume"));
         
         //Background Music
-        mediaPlayer.setAutoPlay(true);
-        //bgm_volume =  Double.parseDouble(config.get("volume"));
-        mediaPlayer.setVolume(bgm_volume);
-        mediaPlayer.setCycleCount(2147483647);
+        backgroundMusicPlayer.setAutoPlay(true);
+        //backgroundMusicVolume =  Double.parseDouble(config.get("volume"));
+        backgroundMusicPlayer.setVolume(backgroundMusicVolume);
+        backgroundMusicPlayer.setCycleCount(2147483647);
         
-        obunga.setPadding(new Insets(28, 448, 28, 448));
-        obunga.setId("board");
+        checkerBoard.setPadding(new Insets(28, 448, 28, 448));
+        checkerBoard.setId("board");
         
         //Pane Creation
 		root = new Pane();
         root.setId("root");
         root.getStylesheets().add(getClass().getResource("game.css").toExternalForm());
         
-        root.getChildren().add(pain);
-		pain.setCenter(menu_buttons);
-		BorderPane.setAlignment(menu_buttons, Pos.CENTER);
+        root.getChildren().add(menuPane);
+		menuPane.setCenter(menuButtons);
+		BorderPane.setAlignment(menuButtons, Pos.CENTER);
 		
-		menu_buttons.setPrefSize(width, height);
+		menuButtons.setPrefSize(width, height);
         
         //Scene Creation
         Scene scene = new Scene(root, 1280, 720);
@@ -135,7 +136,7 @@ public class Main extends Application
         });
         
         //Main Menu Creation
-        main_menu();
+        mainMenu();
         
         //Primary Stage Show
         primaryStage.setScene(scene);
@@ -149,169 +150,142 @@ public class Main extends Application
 	{
 		double multiplier = newValue / oldValue;
         root.setPrefWidth(oldValue * multiplier);
-        menu_buttons.setPrefWidth(oldValue * multiplier);
+        menuButtons.setPrefWidth(oldValue * multiplier);
 	}
 	
 	public void updateHeight(double newValue, double oldValue)
 	{
 		double multiplier = newValue / oldValue;
         root.setPrefHeight(oldValue * multiplier);
-        menu_buttons.setPrefHeight(oldValue * multiplier);
+        menuButtons.setPrefHeight(oldValue * multiplier);
 	}
 	
 	//Screen Update
 	public void updateScreen()
 	{
-		menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
+		menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 
-		switch (menu_id) {
+		switch (menuId) {
 			case 1:
-				main_menu();
+				mainMenu();
 				break;
 			case 2:
-				menu_singleplayer();
+				menuSingleplayer();
 				break;
 			case 3:
-				menu_multiplayer();
+				menuMultiplayer();
 				break;
 			case 4:
-				menu_settings();
-				vol_slider.setPrefSize(width / 3, height / 1.5);
+				menuSettings();
+				volSlider.setPrefSize(width / 3, height / 1.5);
 				break;
 		}
 		
-		if(menu_id >= 1 && menu_id <= 3)
+		if(menuId >= 1 && menuId <= 3)
 		{
-			if(pain.getChildren().size() == 1)
+			if(menuPane.getChildren().size() == 1)
 			{
-				pain.getChildren().remove(vol_slider);
+				menuPane.getChildren().remove(volSlider);
 			}
 		}
 	}
 	
 	//Main Menu
-	public void main_menu()
+	public void mainMenu()
 	{
 		//Menu ID change
-		menu_id = 1;
+		menuId = 1;
 		
 		//Buttons
-		Button button_sp = new Button("Singleplayer");
-		Button button_mp = new Button("Multiplayer");
-		Button button_settings = new Button("Settings");
-		Button button_htp = new Button("How To Play");
-		Button button_close = new Button("Close Game");
+		Button buttonSingleplayer = new Button("Singleplayer");
+		Button buttonMultiplayer = new Button("Multiplayer");
+		Button buttonHowToPlay = new Button("How To Play");
+		Button buttonSettings = new Button("Settings");
+		Button buttonClose = new Button("Close Game");
 		
-		button_sp.setId("menu_button");
-		button_sp.setMaxWidth(width / 3);
-		button_sp.setAlignment(Pos.CENTER);
+		buttonSingleplayer.setId("menu_button");
+		buttonSingleplayer.setMaxWidth(width / 3);
+		buttonSingleplayer.setAlignment(Pos.CENTER);
 		
-		button_mp.setId("menu_button");
-		button_mp.setMaxWidth(width / 3);
-		button_mp.setAlignment(Pos.CENTER);
+		buttonMultiplayer.setId("menu_button");
+		buttonMultiplayer.setMaxWidth(width / 3);
+		buttonMultiplayer.setAlignment(Pos.CENTER);
 		
-		button_htp.setId("menu_button");
-		button_htp.setMaxWidth(width / 3);
-		button_htp.setAlignment(Pos.CENTER);
+		buttonHowToPlay.setId("menu_button");
+		buttonHowToPlay.setMaxWidth(width / 3);
+		buttonHowToPlay.setAlignment(Pos.CENTER);
 		
-		button_settings.setId("menu_button");
-		button_settings.setMaxWidth(width / 3);
-		button_settings.setAlignment(Pos.CENTER);
+		buttonSettings.setId("menu_button");
+		buttonSettings.setMaxWidth(width / 3);
+		buttonSettings.setAlignment(Pos.CENTER);
 		
-		button_close.setId("menu_button");
-		button_close.setMaxWidth(width / 3);
-		button_close.setAlignment(Pos.CENTER);
+		buttonClose.setId("menu_button");
+		buttonClose.setMaxWidth(width / 3);
+		buttonClose.setAlignment(Pos.CENTER);
 		
-		menu_buttons.getChildren().addAll(button_sp, button_mp, button_htp, button_settings, button_close);
-		menu_buttons.setAlignment(Pos.CENTER);
+		menuButtons.getChildren().addAll(buttonSingleplayer, buttonMultiplayer, buttonHowToPlay, buttonSettings, buttonClose);
+		menuButtons.setAlignment(Pos.CENTER);
 		
-		//Button Functions
-		button_sp.setOnAction(new EventHandler<ActionEvent>() 
+		//Main Menu Button Functions
+		buttonSingleplayer.setOnAction(e -> 
 		{
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
-            	menu_singleplayer();
-            }
-        });
+			menuSingleplayer();
+		});
 		
-		button_mp.setOnAction(new EventHandler<ActionEvent>() 
-		{		
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
-            	//Viel Spaß beim Programmieren des Mehrspielermodus, Niclas
-            	
-            	menu_multiplayer();
-            }
-        });
+		buttonMultiplayer.setOnAction(e -> 
+		{
+			menuMultiplayer();
+		});
 
-		button_htp.setOnAction(new EventHandler<ActionEvent>() 
+		buttonHowToPlay.setOnAction(e -> 
 		{
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
-            	menu_htp();
-            }
-        });
+			menuHowToPlay();
+		});
 		
-		button_settings.setOnAction(new EventHandler<ActionEvent>() 
+		buttonSettings.setOnAction(e -> 
 		{
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
-            	menu_settings();
-            }
-        });
+			menuSettings();
+		});
 		
-		button_close.setOnAction(new EventHandler<ActionEvent>() 
+		buttonClose.setOnAction(e -> 
 		{
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
-            	primaryStage.close();
-            }
-        });
+			back();
+		});
 	}
 	
-	public void menu_singleplayer()
+	public void menuSingleplayer()
 	{
 		//Menu ID change
-		this.menu_id = 2;
+		this.menuId = 2;
 		
 		//Remove Buttons from previous Menu
-		if(menu_buttons.getChildren().size() != 0)
+		if(menuButtons.getChildren().size() != 0)
 		{
-			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
+			menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 		}
 		
 		//Buttons
-		Button button_white = new Button("White");
-		Button button_black = new Button("Black");
-		Button button_back = new Button("Back");
+		Button buttonWhite = new Button("Play As White");
+		Button buttonBlack = new Button("Play As Black");
 		
-		button_white.setId("menu_button");
-		button_white.setMaxWidth(width / 3);
-		button_white.setAlignment(Pos.CENTER);
+		buttonWhite.setId("menu_button");
+		buttonWhite.setMaxWidth(width / 3);
+		buttonWhite.setAlignment(Pos.CENTER);
 		
-		button_black.setId("menu_button");
-		button_black.setMaxWidth(width / 3);
-		button_black.setAlignment(Pos.CENTER);
+		buttonBlack.setId("menu_button");
+		buttonBlack.setMaxWidth(width / 3);
+		buttonBlack.setAlignment(Pos.CENTER);
 		
-		button_back.setId("menu_button");
-		button_back.setMaxWidth(width / 3);
-		button_back.setAlignment(Pos.CENTER);
+		menuButtons.getChildren().addAll(buttonWhite, buttonBlack);
+		menuButtons.setAlignment(Pos.CENTER);
 		
-		menu_buttons.getChildren().addAll(button_white, button_black);
-		menu_buttons.setAlignment(Pos.CENTER);
-		
-		button_white.setOnAction(new EventHandler<ActionEvent>() 
+		buttonWhite.setOnAction(new EventHandler<ActionEvent>() 
 		{
             @Override
             public void handle(ActionEvent actionEvent) 
             {
-            	obunga.setStyle("-fx-background-color: #000000");
-            	Scene checkersBoardWhite = new Scene(obunga);
+            	checkerBoard.setStyle("-fx-background-color: #000000");
+            	Scene checkersBoardWhite = new Scene(checkerBoard);
             	
             	primaryStage.setScene(checkersBoardWhite);
 
@@ -335,63 +309,57 @@ public class Main extends Application
             			}
             			
             			boardSpaces[i][j] = space;
-            			obunga.add(space, i, j);
+            			checkerBoard.add(space, i, j);
             		}
             	}
             }});
 	}
 	
-	public void menu_htp()
+	public void menuHowToPlay()
 	{
-		//Menu ID change
-		this.menu_id = 5;
-
-		//Remove Buttons from previous Menu
-		if(menu_buttons.getChildren().size() != 0)
-		{
-			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
-		}
+		Alert alertHowToPlay = new Alert(AlertType.INFORMATION);
 		
-		if(vol_slider.getChildren().size() != 0)
-		{
-			vol_slider.getChildren().remove(0, menu_buttons.getChildren().size());
-		}
+		alertHowToPlay.setTitle("How To Play");
+		alertHowToPlay.setHeaderText("How To Play");
+		alertHowToPlay.setContentText(
+				"In Checkers you will face of your opponent on the board and going to try to defeat them. "
+				+ "A move consists of moving a piece diagonally to an adjacent unoccupied square. If the "
+				+ "adjacent square contains an opponent's piece, and the square immediately beyond it is "
+				+ "vacant, the piece may be captured (and removed from the game) by jumping over it.");
 		
-		Text htp = new Text();
-		
-		htp.setFont(Font.loadFont("file:assets/fonts/", 120));
+		alertHowToPlay.show();
 	}
 	
-	public void menu_multiplayer()
+	public void menuMultiplayer()
 	{
-		this.menu_id = 3;
+		this.menuId = 3;
 	}
 	
-	public void menu_settings()
+	public void menuSettings()
 	{
-		this.menu_id = 4;
+		this.menuId = 4;
 		
 		//Remove Buttons from previous Menu
-		if(menu_buttons.getChildren().size() != 0)
+		if(menuButtons.getChildren().size() != 0)
 		{
-			menu_buttons.getChildren().remove(0, menu_buttons.getChildren().size());
+			menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 		}
 		
 		Slider music_volume = new Slider(0, 100, 100);
 		
-		if(vol_slider.getChildren().size() == 0)
+		if(volSlider.getChildren().size() == 0)
 		{
-			vol_slider.getChildren().add(music_volume);
+			volSlider.getChildren().add(music_volume);
 		}
 		
-		vol_slider.setPrefSize(width / 3, height / 1.5);
-		vol_slider.setAlignment(Pos.CENTER);
-		vol_slider.setId("vbox_visible_border");
-		pain.setCenter(vol_slider);
+		volSlider.setPrefSize(width / 3, height / 1.5);
+		volSlider.setAlignment(Pos.CENTER);
+		volSlider.setId("vbox_visible_border");
+		menuPane.setCenter(volSlider);
 		
-		if(pain.getChildren().contains(vol_slider) == false)
+		if(menuPane.getChildren().contains(volSlider) == false)
 		{
-			pain.getChildren().add(vol_slider);
+			menuPane.getChildren().add(volSlider);
 		}
 		
 		music_volume.valueProperty().addListener(new ChangeListener<Number>() 
@@ -399,8 +367,8 @@ public class Main extends Application
             public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
             {
             	double newVolume = newValue.doubleValue() * 0.0025;
-            	mediaPlayer.setVolume(newVolume);
-            	bgm_volume = newVolume;
+            	backgroundMusicPlayer.setVolume(newVolume);
+            	backgroundMusicVolume = newVolume;
             	
             	config.put("volume", String.valueOf(newVolume));
             	config.write();
@@ -410,16 +378,30 @@ public class Main extends Application
 	
 	public void back()
 	{
-		if(menu_id == 1)
+		switch(menuId) 
 		{
-			primaryStage.close();
+			//Close Game
+			case 1:
+				primaryStage.close();
+				break;
+				
+			//Go Back To Main Menu
+			case 2:
+				menuId = 1;
+				updateScreen();
+				break;
+			case 3:
+				menuId = 1;
+				updateScreen();
+				break;
+			case 4:
+				menuId = 1;
+				updateScreen();
+				break;
+			case 5:
+				menuId = 1;
+				updateScreen();
+				break;
 		}
-		
-		if(menu_id >= 2 && menu_id <= 5)
-		{
-			menu_id = 1;
-			updateScreen();
-		}
-		
 	}
 }
