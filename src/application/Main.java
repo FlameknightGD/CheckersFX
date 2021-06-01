@@ -28,6 +28,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application
 {	
+	//Useless Comment
+	
 	//Initialize Primary Stage
 	Stage primaryStage;
 	
