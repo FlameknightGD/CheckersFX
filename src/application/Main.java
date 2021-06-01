@@ -50,8 +50,8 @@ public class Main extends Application
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
 	
-	double backgroundMusicVolume;
-	//backgroundMusicVolume = Double.parseDouble(configFile.get("volume"));
+	double backgroundMusicVolume = 0.025;
+	//TODO Fix The ConfigParser Get Method
 	
 	//Global Variables
 	double width;
