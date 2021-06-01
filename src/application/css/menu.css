@@ -28,7 +28,7 @@
 
 #root
 {
-	-fx-background-image: url("../../assets/textures/background_image.png");
+	-fx-background-image: url("../../../assets/textures/background_image.png");
 }
 
 #vbox_visible_border

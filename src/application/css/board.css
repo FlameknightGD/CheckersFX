@@ -1,0 +1,14 @@
+#boardSpaceBeige
+{
+	-fx-background-color: #e6ab4c;
+}
+
+#boardSpaceBrown
+{
+	-fx-background-color: #402903;
+}
+
+#checkerBoardPane
+{
+	-fx-background-image: url("../../../assets/textures/background_image.png");
+}

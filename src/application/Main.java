@@ -1,18 +1,15 @@
 package application;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import application.utils.Config;
+
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -24,12 +21,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -49,15 +43,15 @@ public class Main extends Application
 	//Initialie Board Spaces
 	Button[][] boardSpaces = new Button[8][8];
 	
-	
+	//Initialize Config File
+	Config configFile = new Config("config\\config.txt");
 	
 	//Background Music
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
 	
 	double backgroundMusicVolume;
-	
-	Config config = new Config("config\\config.txt");
+	//backgroundMusicVolume = Double.parseDouble(configFile.get("volume"));
 	
 	//Global Variables
 	double width;
@@ -65,11 +59,13 @@ public class Main extends Application
 	
 	int menuId;
 	
+	//Main Method
 	public static void main(String[] args) 
 	{
         launch(args);
     }
 	
+	//Start Method
 	@Override
 	public void start(Stage primaryStage) 
 	{
@@ -123,7 +119,7 @@ public class Main extends Application
         root.setId("root");
         
         //Add CSS And Children To Root
-        root.getStylesheets().add(getClass().getResource("menu.css").toExternalForm());
+        root.getStylesheets().add(getClass().getResource("css/menu.css").toExternalForm());
         root.getChildren().add(menuPane);
         
         //Configure Panes & VBoxes
@@ -297,10 +293,11 @@ public class Main extends Application
 			menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 		}
 		
-		//Buttons
+		//Initialize Buttons
 		Button buttonWhite = new Button("Play As White");
 		Button buttonBlack = new Button("Play As Black");
 		
+		//Configure Buttons
 		buttonWhite.setId("menu_button");
 		buttonWhite.setMaxWidth(width / 3);
 		buttonWhite.setAlignment(Pos.CENTER);
@@ -312,22 +309,26 @@ public class Main extends Application
 		menuButtons.getChildren().addAll(buttonWhite, buttonBlack);
 		menuButtons.setAlignment(Pos.CENTER);
 		
+		//Initialize CheckerBoard
+        Scene checkerBoardScene = new Scene(checkerBoard);
+        checkerBoard.setId("checkerBoardPane");
+        checkerBoard.getStylesheets().add(getClass().getResource("css/board.css").toExternalForm());
+        initializeBoard();
+		
 		//Singleplayer Menu Button Functions
 		buttonWhite.setOnAction(e ->
 		{
-            	checkerBoard.setStyle("-fx-background-color: #000000");
-            	Scene checkersBoardWhite = new Scene(checkerBoard);
-            	
-            	primaryStage.setScene(checkersBoardWhite);
-
-            	Button[][] boardSpaces = new Button[8][8];
-            });
+	        //Show CheckerBoard
+	        primaryStage.setScene(checkerBoardScene);
+        });
 	}
 	
 	public void menuHowToPlay()
 	{
+		//Initialize AlertBox
 		Alert alertHowToPlay = new Alert(AlertType.INFORMATION);
 		
+		//Alert Box Text
 		alertHowToPlay.setTitle("How To Play");
 		alertHowToPlay.setHeaderText("How To Play");
 		alertHowToPlay.setContentText(
@@ -336,12 +337,16 @@ public class Main extends Application
 				+ "adjacent square contains an opponent's piece, and the square immediately beyond it is "
 				+ "vacant, the piece may be captured (and removed from the game) by jumping over it.");
 		
+		//Show AlertBox
 		alertHowToPlay.show();
 	}
 	
 	public void menuMultiplayer()
 	{
-		this.menuId = 3;
+		//Set Menu ID
+		setMenuId(3);
+		
+		//TODO Implement Multiplayer Mode
 	}
 	
 	public void menuSettings()
@@ -349,12 +354,13 @@ public class Main extends Application
 		//Set Menu ID
 		setMenuId(4);
 		
-		//Remove Buttons from previous Menu
+		//Remove Buttons From Previous Menu
 		if(menuButtons.getChildren().size() != 0)
 		{
 			menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 		}
 		
+		//Initialize Volume Slider And Add To VBox
 		Slider volumeSlider = new Slider(0, 100, 100);
 		
 		if(vBoxVolumeSlider.getChildren().size() == 0)
@@ -362,9 +368,11 @@ public class Main extends Application
 			vBoxVolumeSlider.getChildren().add(volumeSlider);
 		}
 		
+		//Configure Volume Slider VBox
 		vBoxVolumeSlider.setPrefSize(width / 3, height / 1.5);
 		vBoxVolumeSlider.setAlignment(Pos.CENTER);
 		vBoxVolumeSlider.setId("vbox_visible_border");
+		
 		menuPane.setCenter(vBoxVolumeSlider);
 		
 		if(menuPane.getChildren().contains(vBoxVolumeSlider) == false)
@@ -372,18 +380,20 @@ public class Main extends Application
 			menuPane.getChildren().add(vBoxVolumeSlider);
 		}
 		
+		//Listener For Volume Slider
 		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() 
 		{
             public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
             {
             	double newVolume = newValue.doubleValue() * 0.0025;
             	musicPlayer.setVolume(newVolume);
-            	backgroundMusicVolume = newVolume;
             	
-            	config.put("volume", String.valueOf(newVolume));
-            	config.write();
+            	configFile.put("volume", String.valueOf(newVolume));
+            	configFile.write();
             }
         });
+		
+		//TODO Fix VBox Placement
 	}
 	
 	//Back Method
@@ -418,23 +428,20 @@ public class Main extends Application
 	
 	public void initializeBoard()
 	{
-		checkerBoard.setStyle("-fx-background-color: #000000");
-    	
     	for(int i = 0; i < 8; i++)
     	{
     		for(int j = 0; j < 8; j++)
     		{
     			Button space = new Button("");
-    			space.setId("boardSpace");
     			space.setPrefSize(128, 128);
     			
     			if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1)
     			{
-    				space.setStyle("-fx-background-color: #d3a74d");
+    				space.setId("boardSpaceBeige");
     			}
     			else
     			{
-    				space.setStyle("-fx-background-color: #312206");
+    				space.setId("boardSpaceBrown");
     			}
     			
     			boardSpaces[i][j] = space;
@@ -447,5 +454,11 @@ public class Main extends Application
 	public void setMenuId(int menuId) 
 	{
 		this.menuId = menuId;
+	}
+	
+	//Getters
+	public int getMenuId() 
+	{
+		return menuId;
 	}
 }

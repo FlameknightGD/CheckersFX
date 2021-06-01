@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.nio.file.*;;
 
+@SuppressWarnings("serial")
 public class Config extends HashMap<String, String>
 {
     private String seperator;
