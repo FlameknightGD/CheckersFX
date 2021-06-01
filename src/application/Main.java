@@ -34,24 +34,29 @@ import javafx.stage.Stage;
 
 public class Main extends Application
 {	
+	//Initialize Primary Stage
 	Stage primaryStage;
+	
+	//Initialize Panes
 	Pane root;
-	
-	double width;
-	double height;
-	
-	Config config = new Config("config\\config.txt");
-	
 	BorderPane menuPane = new BorderPane();
 	GridPane checkerBoard = new GridPane();
 	
+	//Initialize VBoxes
 	VBox menuButtons = new VBox();
 	VBox vBoxVolumeSlider = new VBox();
 	
+	//Background Music
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
-	MediaPlayer backgroundMusicPlayer = new MediaPlayer(backgroundMusic);
+	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
+	
 	double backgroundMusicVolume;
-
+	
+	Config config = new Config("config\\config.txt");
+	
+	//Global Variables
+	double width;
+	double height;
 	
 	int menuId;
 	
@@ -63,7 +68,7 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) 
 	{
-		//Width & Height Parameters
+		//Set Initial Witdh And Height
 		width = 1280;
 		height = 720;
 		
@@ -99,10 +104,10 @@ public class Main extends Application
         System.out.println(config.get("volume"));
         
         //Background Music
-        backgroundMusicPlayer.setAutoPlay(true);
+        musicPlayer.setAutoPlay(true);
         //backgroundMusicVolume =  Double.parseDouble(config.get("volume"));
-        backgroundMusicPlayer.setVolume(backgroundMusicVolume);
-        backgroundMusicPlayer.setCycleCount(2147483647);
+        musicPlayer.setVolume(backgroundMusicVolume);
+        musicPlayer.setCycleCount(2147483647);
         
         checkerBoard.setPadding(new Insets(28, 448, 28, 448));
         checkerBoard.setId("board");
@@ -384,7 +389,7 @@ public class Main extends Application
             public void changed(ObservableValue <? extends Number> ov, Number oldValue, Number newValue) 
             {
             	double newVolume = newValue.doubleValue() * 0.0025;
-            	backgroundMusicPlayer.setVolume(newVolume);
+            	musicPlayer.setVolume(newVolume);
             	backgroundMusicVolume = newVolume;
             	
             	config.put("volume", String.valueOf(newVolume));
