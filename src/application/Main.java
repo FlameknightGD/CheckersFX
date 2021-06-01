@@ -46,6 +46,11 @@ public class Main extends Application
 	VBox menuButtons = new VBox();
 	VBox vBoxVolumeSlider = new VBox();
 	
+	//Initialie Board Spaces
+	Button[][] boardSpaces = new Button[8][8];
+	
+	
+	
 	//Background Music
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
@@ -72,21 +77,21 @@ public class Main extends Application
 		width = 1280;
 		height = 720;
 		
-		//Game Icon & Title
+		//Set Game Title And Icon
 		primaryStage.setTitle("CheckersFX");
 		primaryStage.getIcons().add(new Image("file:assets/textures/icon.png"));
 		
-		//Width Configuration
+		//Configure Width
 		primaryStage.setWidth(1280);
 		primaryStage.setMinWidth(1280);
 		primaryStage.setMaxWidth(1920);
 		
-		//Height Configuration
+		//Configure Height
 		primaryStage.setHeight(720);
 		primaryStage.setMinHeight(720);
 		primaryStage.setMaxHeight(1080);
 		
-		//Listeners
+		//Add Listeners To Change Width And Height
 		primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> 
 		{
             width = (double) newVal;
@@ -101,33 +106,40 @@ public class Main extends Application
             updateScreen();
         });
         
-        System.out.println(config.get("volume"));
+        //Set Size Of VBox
+        menuButtons.setPrefSize(width, height);
         
-        //Background Music
+        //Configure Music Player
         musicPlayer.setAutoPlay(true);
-        //backgroundMusicVolume =  Double.parseDouble(config.get("volume"));
-        musicPlayer.setVolume(backgroundMusicVolume);
         musicPlayer.setCycleCount(2147483647);
+        musicPlayer.setVolume(backgroundMusicVolume);
         
+        //Configure CheckerBoard GridPane
         checkerBoard.setPadding(new Insets(28, 448, 28, 448));
         checkerBoard.setId("board");
         
-        //Pane Creation
+        //Initialize Root
 		root = new Pane();
         root.setId("root");
-        root.getStylesheets().add(getClass().getResource("game.css").toExternalForm());
         
+        //Add CSS And Children To Root
+        root.getStylesheets().add(getClass().getResource("menu.css").toExternalForm());
         root.getChildren().add(menuPane);
+        
+        //Configure Panes & VBoxes
 		menuPane.setCenter(menuButtons);
 		BorderPane.setAlignment(menuButtons, Pos.CENTER);
 		
 		menuButtons.setPrefSize(width, height);
+		
+		checkerBoard.setPadding(new Insets(28, 448, 28, 448));
+        checkerBoard.setId("board");
         
-        //Scene Creation
-        Scene scene = new Scene(root, 1280, 720);
+        //Initialize Scene
+        Scene menuScene = new Scene(root, 1280, 720);
         
-        //ACHTUNG DIESER LISTENER WURDE UNS VON ADRIAN GEKLAUT!!!
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() 
+        //Listener For Escape Key
+        menuScene.setOnKeyPressed(new EventHandler<KeyEvent>() 
         {
             @Override
             public void handle(KeyEvent t) 
@@ -140,11 +152,11 @@ public class Main extends Application
             }
         });
         
-        //Main Menu Creation
+        //Activate Main Menu
         mainMenu();
         
-        //Primary Stage Show
-        primaryStage.setScene(scene);
+        //Set Scene & Show PrimaryStage
+        primaryStage.setScene(menuScene);
         
         this.primaryStage = primaryStage;
         primaryStage.show();
@@ -300,40 +312,16 @@ public class Main extends Application
 		menuButtons.getChildren().addAll(buttonWhite, buttonBlack);
 		menuButtons.setAlignment(Pos.CENTER);
 		
-		buttonWhite.setOnAction(new EventHandler<ActionEvent>() 
+		//Singleplayer Menu Button Functions
+		buttonWhite.setOnAction(e ->
 		{
-            @Override
-            public void handle(ActionEvent actionEvent) 
-            {
             	checkerBoard.setStyle("-fx-background-color: #000000");
             	Scene checkersBoardWhite = new Scene(checkerBoard);
             	
             	primaryStage.setScene(checkersBoardWhite);
 
             	Button[][] boardSpaces = new Button[8][8];
-            	
-            	for(int i = 0; i < 8; i++)
-            	{
-            		for(int j = 0; j < 8; j++)
-            		{
-            			Button space = new Button("");
-            			space.setId("boardSpace");
-            			space.setPrefSize(128, 128);
-            			
-            			if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1)
-            			{
-            				space.setStyle("-fx-background-color: #d3a74d");
-            			}
-            			else
-            			{
-            				space.setStyle("-fx-background-color: #312206");
-            			}
-            			
-            			boardSpaces[i][j] = space;
-            			checkerBoard.add(space, i, j);
-            		}
-            	}
-            }});
+            });
 	}
 	
 	public void menuHowToPlay()
@@ -426,6 +414,33 @@ public class Main extends Application
 				updateScreen();
 				break;
 		}
+	}
+	
+	public void initializeBoard()
+	{
+		checkerBoard.setStyle("-fx-background-color: #000000");
+    	
+    	for(int i = 0; i < 8; i++)
+    	{
+    		for(int j = 0; j < 8; j++)
+    		{
+    			Button space = new Button("");
+    			space.setId("boardSpace");
+    			space.setPrefSize(128, 128);
+    			
+    			if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1)
+    			{
+    				space.setStyle("-fx-background-color: #d3a74d");
+    			}
+    			else
+    			{
+    				space.setStyle("-fx-background-color: #312206");
+    			}
+    			
+    			boardSpaces[i][j] = space;
+    			checkerBoard.add(space, i, j);
+    		}
+    	}
 	}
 	
 	//Setters

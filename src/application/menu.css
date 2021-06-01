@@ -3,11 +3,6 @@
     src: url('file:assets/fonts/font.ttf');
 }
 
-#board
-{
-	-fx-background-image: url("../../assets/textures/background_image.png");
-}
-
 #menu_button 
 { 
     -fx-padding: 8 15 15 15;
