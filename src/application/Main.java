@@ -325,32 +325,19 @@ public class Main extends Application
 	    		for(int j = 0; j < 8; j++)
 	    		{	
 	    			//Initialize Pieces
-	    			Circle pieceWhite = new Circle(26, 26, 52, Color.WHITE);
-	    			Circle pieceBlack = new Circle(26, 26, 52, Color.BLACK);
+	    			Circle pieceWhite = new Circle(52, Color.WHITE);
+	    			Circle pieceBlack = new Circle(52, Color.BLACK);
 	    			
 	    			//Add Pieces
 	    			if(i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0)
-	    			{  				
-	    				switch(j)
+	    			{  								
+	    				if(j >= 0 || j <= 2)
 	    				{
-	    					case 0:
-	    						checkerBoard.add(pieceBlack, i, j);
-	    						break;
-	    					case 1:
-	    						checkerBoard.add(pieceBlack, i, j);
-	    						break;
-	    					case 2:
-	    						checkerBoard.add(pieceBlack, i, j);
-	    						break;
-	    					case 5:
-	    						checkerBoard.add(pieceWhite, i, j);
-	    						break;
-	    					case 6:
-	    						checkerBoard.add(pieceWhite, i, j);
-	    						break;
-	    					case 7:
-	    						checkerBoard.add(pieceWhite, i, j);
-	    						break;
+	    					checkerBoard.add(pieceBlack, i, j);
+	    				}
+	    				else if(j >= 5 || j <= 7)
+	    				{
+	    					checkerBoard.add(pieceWhite, i, j);
 	    				}
 	    			}
 	    		}
@@ -360,6 +347,29 @@ public class Main extends Application
 		buttonBlack.setOnAction(e ->
 		{
 			initializeBoard();
+			
+			for(int i = 0; i < 8; i++)
+	    	{
+	    		for(int j = 0; j < 8; j++)
+	    		{	
+	    			//Initialize Pieces
+	    			Circle pieceWhite = new Circle(52, Color.WHITE);
+	    			Circle pieceBlack = new Circle(52, Color.BLACK);
+	    			
+	    			//Add Pieces
+	    			if(i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0)
+	    			{  								
+	    				if(j >= 0 || j <= 2)
+	    				{
+	    					checkerBoard.add(pieceWhite, i, j);
+	    				}
+	    				else if(j >= 5 || j <= 7)
+	    				{
+	    					checkerBoard.add(pieceBlack, i, j);
+	    				}
+	    			}
+	    		}
+	    	}
         });
 	}
 	
