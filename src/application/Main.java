@@ -24,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Main extends Application
@@ -53,13 +55,15 @@ public class Main extends Application
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
 	
 	double backgroundMusicVolume = 0.025;
-	//TODO Fix The ConfigParser Get Method
+	//TODO Fix The ConfigParser Get Method Ffs
 	
 	//Global Variables
 	double width;
 	double height;
 	
 	int menuId;
+	
+	int[] selectedSpace = new int[2];
 	
 	//Main Method
 	public static void main(String[] args) 
@@ -315,6 +319,42 @@ public class Main extends Application
 		buttonWhite.setOnAction(e ->
 		{
 			initializeBoard();
+			
+			for(int i = 0; i < 8; i++)
+	    	{
+	    		for(int j = 0; j < 8; j++)
+	    		{	
+	    			//Initialize Pieces
+	    			Circle pieceWhite = new Circle(26, 26, 52, Color.WHITE);
+	    			Circle pieceBlack = new Circle(26, 26, 52, Color.BLACK);
+	    			
+	    			//Add Pieces
+	    			if(i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0)
+	    			{  				
+	    				switch(j)
+	    				{
+	    					case 0:
+	    						checkerBoard.add(pieceBlack, i, j);
+	    						break;
+	    					case 1:
+	    						checkerBoard.add(pieceBlack, i, j);
+	    						break;
+	    					case 2:
+	    						checkerBoard.add(pieceBlack, i, j);
+	    						break;
+	    					case 5:
+	    						checkerBoard.add(pieceWhite, i, j);
+	    						break;
+	    					case 6:
+	    						checkerBoard.add(pieceWhite, i, j);
+	    						break;
+	    					case 7:
+	    						checkerBoard.add(pieceWhite, i, j);
+	    						break;
+	    				}
+	    			}
+	    		}
+	    	}
         });
 		
 		buttonBlack.setOnAction(e ->
@@ -435,7 +475,7 @@ public class Main extends Application
     	for(int i = 0; i < 8; i++)
     	{
     		for(int j = 0; j < 8; j++)
-    		{
+    		{	
     			Button space = new Button("");
     			space.setPrefSize(128, 128);
     			
@@ -445,7 +485,14 @@ public class Main extends Application
     			}
     			else
     			{
+    				int[] spaceCoordinates = {i, j};
+    				
     				space.setId("boardSpaceBrown");
+    				
+    				space.setOnAction(e -> 
+        			{
+        				setSelectedSpace(spaceCoordinates);
+        			});
     			}
     			
     			boardSpaces[i][j] = space;
@@ -454,18 +501,6 @@ public class Main extends Application
     	}
     	
     	primaryStage.setScene(checkerBoardScene);
-	}
-	
-	//Setters
-	public void setMenuId(int menuId) 
-	{
-		this.menuId = menuId;
-	}
-	
-	//Getters
-	public int getMenuId() 
-	{
-		return menuId;
 	}
 	
 	public void waitForTurn(int milliseconds)
@@ -478,5 +513,22 @@ public class Main extends Application
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	//Setters
+	public void setMenuId(int menuId) 
+	{
+		this.menuId = menuId;
+	}
+	
+	public void setSelectedSpace(int[] selectedSpace) 
+	{
+		this.selectedSpace = selectedSpace;
+	}
+	
+	//Getters
+	public int getMenuId() 
+	{
+		return menuId;
 	}
 }

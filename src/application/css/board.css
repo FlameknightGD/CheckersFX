@@ -3,9 +3,19 @@
 	-fx-background-color: #e6ab4c;
 }
 
+#boardSpaceBeige:focused
+{
+	-fx-background-color: #f0b557;
+}
+
 #boardSpaceBrown
 {
 	-fx-background-color: #402903;
+}
+
+#boardSpaceBrown:focused
+{
+	-fx-background-color: #452d06;
 }
 
 #checkerBoardPane
