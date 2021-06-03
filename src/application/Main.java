@@ -311,17 +311,15 @@ public class Main extends Application
 		menuButtons.getChildren().addAll(buttonWhite, buttonBlack);
 		menuButtons.setAlignment(Pos.CENTER);
 		
-		//Initialize CheckerBoard
-        Scene checkerBoardScene = new Scene(checkerBoard);
-        checkerBoard.setId("checkerBoardPane");
-        checkerBoard.getStylesheets().add(getClass().getResource("css/board.css").toExternalForm());
-        initializeBoard();
-		
 		//Singleplayer Menu Button Functions
 		buttonWhite.setOnAction(e ->
 		{
-	        //Show CheckerBoard
-	        primaryStage.setScene(checkerBoardScene);
+			initializeBoard();
+        });
+		
+		buttonBlack.setOnAction(e ->
+		{
+			initializeBoard();
         });
 	}
 	
@@ -430,6 +428,10 @@ public class Main extends Application
 	
 	public void initializeBoard()
 	{
+		Scene checkerBoardScene = new Scene(checkerBoard);
+        checkerBoard.setId("checkerBoardPane");
+        checkerBoard.getStylesheets().add(getClass().getResource("css/board.css").toExternalForm());
+		
     	for(int i = 0; i < 8; i++)
     	{
     		for(int j = 0; j < 8; j++)
@@ -450,6 +452,8 @@ public class Main extends Application
     			checkerBoard.add(space, i, j);
     		}
     	}
+    	
+    	primaryStage.setScene(checkerBoardScene);
 	}
 	
 	//Setters
@@ -462,5 +466,17 @@ public class Main extends Application
 	public int getMenuId() 
 	{
 		return menuId;
+	}
+	
+	public void waitForTurn(int milliseconds)
+	{
+		try 
+		{
+			Thread.sleep(milliseconds);
+		} 
+		catch (InterruptedException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 }
