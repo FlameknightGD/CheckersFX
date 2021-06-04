@@ -329,13 +329,13 @@ public class Main extends Application
 	    			Circle pieceBlack = new Circle(52, Color.BLACK);
 	    			
 	    			//Add Pieces
-	    			if(i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0)
-	    			{  								
-	    				if(j >= 0 || j <= 2)
+	    			if(i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0)
+	    			{  			
+	    				if(j < 3)
 	    				{
 	    					checkerBoard.add(pieceBlack, i, j);
 	    				}
-	    				else if(j >= 5 || j <= 7)
+	    				else if(j > 4)
 	    				{
 	    					checkerBoard.add(pieceWhite, i, j);
 	    				}
@@ -357,13 +357,13 @@ public class Main extends Application
 	    			Circle pieceBlack = new Circle(52, Color.BLACK);
 	    			
 	    			//Add Pieces
-	    			if(i % 2 == 1 && j % 2 == 1 || i % 2 == 0 && j % 2 == 0)
-	    			{  								
-	    				if(j >= 0 || j <= 2)
+	    			if(i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0)
+	    			{  			
+	    				if(j < 3)
 	    				{
 	    					checkerBoard.add(pieceWhite, i, j);
 	    				}
-	    				else if(j >= 5 || j <= 7)
+	    				else if(j > 4)
 	    				{
 	    					checkerBoard.add(pieceBlack, i, j);
 	    				}
