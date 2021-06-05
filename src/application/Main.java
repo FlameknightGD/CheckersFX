@@ -2,6 +2,8 @@ package application;
 
 import java.nio.file.Paths;
 
+import application.game.Piece;
+import application.game.Space;
 import application.utils.Config;
 
 import javafx.application.Application;
@@ -10,6 +12,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -64,6 +67,9 @@ public class Main extends Application
 	int menuId;
 	
 	int[] selectedSpace = new int[2];
+	
+	boolean redSpace = false;
+	boolean greenSpace = false;
 	
 	//Main Method
 	public static void main(String[] args) 
@@ -324,9 +330,12 @@ public class Main extends Application
 	    	{
 	    		for(int j = 0; j < 8; j++)
 	    		{	
+	    			//Coordinates
+	    			int[] pieceCoordinates = {i, j};
+	    			
 	    			//Initialize Pieces
-	    			Circle pieceWhite = new Circle(52, Color.WHITE);
-	    			Circle pieceBlack = new Circle(52, Color.BLACK);
+	    			Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
+	    			Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
 	    			
 	    			//Add Pieces
 	    			if(i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0)
@@ -342,7 +351,7 @@ public class Main extends Application
 	    			}
 	    		}
 	    	}
-        });
+        }); 
 		
 		buttonBlack.setOnAction(e ->
 		{
@@ -352,19 +361,24 @@ public class Main extends Application
 	    	{
 	    		for(int j = 0; j < 8; j++)
 	    		{	
+	    			//Coordinates
+	    			int[] pieceCoordinates = {i, j};
+	    			
 	    			//Initialize Pieces
-	    			Circle pieceWhite = new Circle(52, Color.WHITE);
-	    			Circle pieceBlack = new Circle(52, Color.BLACK);
+	    			Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
+	    			Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
 	    			
 	    			//Add Pieces
 	    			if(i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0)
 	    			{  			
 	    				if(j < 3)
 	    				{
+	    					pieceWhite.setCoordinates(pieceCoordinates);
 	    					checkerBoard.add(pieceWhite, i, j);
 	    				}
 	    				else if(j > 4)
 	    				{
+	    					pieceBlack.setCoordinates(pieceCoordinates);
 	    					checkerBoard.add(pieceBlack, i, j);
 	    				}
 	    			}
@@ -486,7 +500,9 @@ public class Main extends Application
     	{
     		for(int j = 0; j < 8; j++)
     		{	
-    			Button space = new Button("");
+    			int[] spaceCoordinates = {i, j};
+    			
+    			Space space = new Space("", spaceCoordinates);
     			space.setPrefSize(128, 128);
     			
     			if(i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1)
@@ -494,14 +510,46 @@ public class Main extends Application
     				space.setId("boardSpaceBeige");
     			}
     			else
-    			{
-    				int[] spaceCoordinates = {i, j};
-    				
+    			{			
     				space.setId("boardSpaceBrown");
+    				space.setCoordinates(spaceCoordinates);
     				
     				space.setOnAction(e -> 
         			{
-        				setSelectedSpace(spaceCoordinates);
+        				setSelectedSpace(spaceCoordinates);	
+        				
+        				if(redSpace == false)
+        				{					
+        					space.setOnKeyPressed(new EventHandler<KeyEvent>() 
+            		        {
+        						@Override
+            		            public void handle(KeyEvent t) 
+            		            {
+        							KeyCode key = t.getCode();
+            		                if (key == KeyCode.ENTER)
+            		                {
+            		                	space.setId("spaceSelectedRed");
+            		                	setRedSpace(true);
+            		                }
+            		            }
+            		        });
+        				}
+        				else if(getGreenSpace() == false)
+        				{
+        					space.setOnKeyPressed(new EventHandler<KeyEvent>() 
+            		        {
+            		            @Override
+            		            public void handle(KeyEvent t) 
+            		            {
+            		                KeyCode key = t.getCode();
+            		                if (key == KeyCode.ENTER)
+            		                {
+            		                	space.setId("spaceSelectedGreen");
+            		                	setGreenSpace(true);
+            		                }
+            		            }
+            		        });
+        				}
         			});
     			}
     			
@@ -526,9 +574,19 @@ public class Main extends Application
 	}
 	
 	//Setters
+	public void setGreenSpace(boolean greenSpace) 
+	{
+		this.greenSpace = greenSpace;
+	}
+	
 	public void setMenuId(int menuId) 
 	{
 		this.menuId = menuId;
+	}
+	
+	public void setRedSpace(boolean redSpace) 
+	{
+		this.redSpace = redSpace;
 	}
 	
 	public void setSelectedSpace(int[] selectedSpace) 
@@ -537,8 +595,18 @@ public class Main extends Application
 	}
 	
 	//Getters
+	public boolean getGreenSpace()
+	{
+		return this.greenSpace;
+	}
+	
 	public int getMenuId() 
 	{
-		return menuId;
+		return this.menuId;
+	}
+	
+	public boolean getRedSpace()
+	{
+		return this.redSpace;
 	}
 }

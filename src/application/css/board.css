@@ -22,3 +22,23 @@
 {
 	-fx-background-image: url("../../../assets/textures/background_image.png");
 }
+
+#spaceSelectedGreen
+{
+	-fx-background-color: #00ff27;
+}
+
+#spaceSelectedGreen:focused
+{
+	-fx-background-color: #52ff3a;
+}
+
+#spaceSelectedRed
+{
+	-fx-background-color: #ff0000;
+}
+
+#spaceSelectedRed:focused
+{
+	-fx-background-color: #FF2b2b;
+}
