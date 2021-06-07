@@ -6,6 +6,7 @@ import javafx.scene.shape.Circle;
 public class Piece extends Circle
 {
 	public int[] coordinates;
+	public int childNumber;
 	
 	public Piece(double radius, Paint fill, int[] coordinates) 
 	{
@@ -21,6 +22,11 @@ public class Piece extends Circle
 	}
 	
 	//Setters
+	public void setChildNumber(int childNumber) 
+	{
+		this.childNumber = childNumber;
+	}
+	
 	public void setCoordinates(int[] coordinates) 
 	{
 		this.coordinates = coordinates;
