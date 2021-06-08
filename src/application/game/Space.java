@@ -6,6 +6,7 @@ public class Space extends Button
 {
 	public int[] coordinates;
 	public boolean containsPiece;
+	public String color;
 	
 	public Space(String text, int[] coordinates) 
 	{
@@ -25,6 +26,11 @@ public class Space extends Button
 		return this.containsPiece;
 	}
 	
+	public String getColor()
+	{
+		return this.color;
+	}
+	
 	//Setters
 	public void setCoordinates(int[] coordinates) 
 	{
@@ -34,5 +40,9 @@ public class Space extends Button
 	public void setContainsPiece(boolean containsPiece) 
 	{
 		this.containsPiece = containsPiece;
+	}
+	
+	public void setColor(String color) {
+		this.color = color;
 	}
 }
