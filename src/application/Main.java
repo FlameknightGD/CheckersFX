@@ -46,9 +46,6 @@ public class Main extends Application {
 	VBox menuButtons = new VBox();
 	VBox vBoxVolumeSlider = new VBox();
 
-	// Initialie Board Spaces
-	Button[][] boardSpaces = new Button[8][8];
-
 	// Initialize Config File
 	Config configFile = new Config("config\\config.txt");
 
@@ -56,7 +53,7 @@ public class Main extends Application {
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
 
-	double backgroundMusicVolume = 0.025;
+	double backgroundMusicVolume = 0.0;
 	// TODO Fix The ConfigParser Get Method Ffs
 
 	// Global Variables
@@ -69,8 +66,11 @@ public class Main extends Application {
 
 	boolean redSpace = false;
 	boolean greenSpace = false;
-	
+
 	String playerColor;
+
+	Space[][] boardSpaces = new Space[8][8];
+	Piece[][] boardPieces = new Piece[8][8];
 
 	// Main Method
 	public static void main(String[] args) {
@@ -319,9 +319,13 @@ public class Main extends Application {
 					// Add Pieces
 					if (i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
 						if (j < 3) {
+							pieceBlack.setCoordinates(pieceCoordinates);
 							checkerBoard.add(pieceBlack, i, j);
+							boardPieces[i][j] = pieceBlack;
 						} else if (j > 4) {
+							pieceWhite.setCoordinates(pieceCoordinates);
 							checkerBoard.add(pieceWhite, i, j);
+							boardPieces[i][j] = pieceWhite;
 						}
 					}
 				}
@@ -345,9 +349,11 @@ public class Main extends Application {
 						if (j < 3) {
 							pieceWhite.setCoordinates(pieceCoordinates);
 							checkerBoard.add(pieceWhite, i, j);
+							boardPieces[i][j] = pieceWhite;
 						} else if (j > 4) {
 							pieceBlack.setCoordinates(pieceCoordinates);
 							checkerBoard.add(pieceBlack, i, j);
+							boardPieces[i][j] = pieceBlack;
 						}
 					}
 				}
@@ -457,39 +463,40 @@ public class Main extends Application {
 			for (int j = 0; j < 8; j++) {
 				int[] spaceCoordinates = { i, j };
 
+				final int x = i;
+				final int y = j;
+
 				Space space = new Space("", spaceCoordinates);
 				space.setPrefSize(128, 128);
 
 				if (i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1) {
 					space.setId("boardSpaceBeige");
 				} else {
-					if(j < 3 || j > 4)
-					{
+					if (j < 3 || j > 4) {
 						space.setContainsPiece(true);
-						if(getPlayerColor() == "white")
-						{
-							if(j > 4) {
+						if (getPlayerColor() == "white") {
+							if (j > 4) {
 								space.setColor("white");
 							} else {
 								space.setColor("black");
 							}
 						} else {
-							if(j < 3) {
+							if (j < 3) {
 								space.setColor("black");
 							} else {
 								space.setColor("white");
 							}
 						}
 					}
-					
+
 					space.setId("boardSpaceBrown");
 					space.setCoordinates(spaceCoordinates);
 
 					space.setOnAction(e -> {
 						setSelectedSpace(spaceCoordinates);
 
-						if (space.getContainsPiece() == true) {
-							if (redSpace == false) {
+						if (1 != 187) {
+							if (redSpace == false && space.getContainsPiece() == true) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
@@ -497,10 +504,16 @@ public class Main extends Application {
 										if (key == KeyCode.ENTER) {
 											space.setId("spaceSelectedRed");
 											setRedSpace(true);
+
+											int[] crewmate = space.getCoordinates();
+
+											setSelectedSpace(crewmate);
+											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
 										}
 									}
 								});
-							} else if (getGreenSpace() == false) {
+							} else if (getRedSpace() == true && getGreenSpace() == false
+									&& space.getContainsPiece() == false) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
@@ -508,6 +521,30 @@ public class Main extends Application {
 										if (key == KeyCode.ENTER) {
 											space.setId("spaceSelectedGreen");
 											setGreenSpace(true);
+
+											updateBoard();
+
+											space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+												@Override
+												public void handle(KeyEvent t) {
+													KeyCode key = t.getCode();
+													if (key == KeyCode.ENTER) {
+														setGreenSpace(true);
+
+														int[] z = { x, y };
+
+														boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
+														
+														if (space.getColor() == "white") {
+															boardPieces[x][y] = new Piece(52, Color.WHITE, z);
+														}
+														System.out.println(
+																boardPieces[selectedSpace[0]][selectedSpace[1]]);
+
+														updateBoard();
+													}
+												}
+											});
 										}
 									}
 								});
@@ -532,6 +569,26 @@ public class Main extends Application {
 		}
 	}
 
+	public void updateBoard() {
+		checkerBoard.getChildren().remove(0, checkerBoard.getChildren().size());
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (boardSpaces[i][j] instanceof Space) {
+					checkerBoard.add(boardSpaces[i][j], i, j);
+				}
+			}
+		}
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (boardPieces[i][j] instanceof Piece) {
+					checkerBoard.add(boardPieces[i][j], i, j);
+				}
+			}
+		}
+	}
+
 	// Setters
 	public void setGreenSpace(boolean greenSpace) {
 		this.greenSpace = greenSpace;
@@ -548,9 +605,13 @@ public class Main extends Application {
 	public void setSelectedSpace(int[] selectedSpace) {
 		this.selectedSpace = selectedSpace;
 	}
-	
+
 	public void setPlayerColor(String playerColor) {
 		this.playerColor = playerColor;
+	}
+
+	public void setBoardPieces(Piece[][] boardPieces) {
+		this.boardPieces = boardPieces;
 	}
 
 	// Getters
@@ -565,7 +626,7 @@ public class Main extends Application {
 	public boolean getRedSpace() {
 		return this.redSpace;
 	}
-	
+
 	public String getPlayerColor() {
 		return this.playerColor;
 	}
