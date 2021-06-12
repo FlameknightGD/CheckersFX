@@ -1,4 +1,4 @@
-package application.game;
+package application.game.objects;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;

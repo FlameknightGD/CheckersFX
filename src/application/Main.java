@@ -2,8 +2,8 @@ package application;
 
 import java.nio.file.Paths;
 
-import application.game.Piece;
-import application.game.Space;
+import application.game.objects.Piece;
+import application.game.objects.Space;
 import application.utils.Config;
 
 import javafx.application.Application;
@@ -91,12 +91,12 @@ public class Main extends Application {
 		// Configure Width
 		primaryStage.setWidth(1280);
 		primaryStage.setMinWidth(1280);
-		primaryStage.setMaxWidth(1920);
+		//primaryStage.setMaxWidth(3000);
 
 		// Configure Height
 		primaryStage.setHeight(720);
 		primaryStage.setMinHeight(720);
-		primaryStage.setMaxHeight(1080);
+		//primaryStage.setMaxHeight(3000);
 
 		// Add Listeners To Change Width And Height
 		primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
