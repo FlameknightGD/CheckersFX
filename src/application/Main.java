@@ -508,7 +508,7 @@ public class Main extends Application {
 											int[] crewmate = space.getCoordinates();
 
 											setSelectedSpace(crewmate);
-											
+
 											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
 										}
 									}
@@ -525,27 +525,42 @@ public class Main extends Application {
 
 											updateBoard();
 
-											space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-												@Override
-												public void handle(KeyEvent t) {
-													KeyCode key = t.getCode();
-													if (key == KeyCode.ENTER) {
-														setGreenSpace(true);
+											/*
+											 * space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+											 * 
+											 * @Override public void handle(KeyEvent t) { KeyCode key = t.getCode(); if
+											 * (key == KeyCode.SPACE) { setGreenSpace(true);
+											 * 
+											 * int[] z = { x, y };
+											 * 
+											 * boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
+											 * 
+											 * if (space.getColor() == "white") { boardPieces[x][y] = new Piece(52,
+											 * Color.WHITE, z); } System.out.println(
+											 * boardPieces[selectedSpace[0]][selectedSpace[1]]);
+											 * 
+											 * updateBoard(); } } });
+											 */
+										}
+									}
+								});
+							} else if (getGreenSpace() == true) {
+								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+									@Override
+									public void handle(KeyEvent t) {
+										KeyCode key = t.getCode();
+										if (key == KeyCode.SPACE) {
+											int[] z = { x, y };
 
-														int[] z = { x, y };
+											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
 
-														boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
-														
-														if (space.getColor() == "white") {
-															boardPieces[x][y] = new Piece(52, Color.WHITE, z);
-														}
-														System.out.println(
-																boardPieces[selectedSpace[0]][selectedSpace[1]]);
+											boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
 
-														updateBoard();
-													}
-												}
-											});
+											boardPieces[x][y] = new Piece(52, Color.WHITE, z);
+
+											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
+
+											updateBoard();
 										}
 									}
 								});
