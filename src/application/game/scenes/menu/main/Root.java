@@ -3,6 +3,8 @@ package application.game.scenes.menu.main;
 import application.game.StageController;
 
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
@@ -14,9 +16,18 @@ public class Root extends VBox
     private Button buttonSettings;
     private Button buttonClose;
 
+    /**
+     * Initialises an extension of VBox which is used as root for the "MENU_MAIN" / MenuMain scene.
+     * @param stageController Reference to the stage controller.
+     */
+
     public Root(StageController stageController)
     {
         super();
+
+        /**
+         * Sets up menu items.
+         */
 
         this.setButtonSingleplayer(new Button("Singleplayer"));
         this.setButtonMultiplayer(new Button("Multiplayer"));
@@ -44,27 +55,61 @@ public class Root extends VBox
 		this.getButtonClose().setMaxWidth(stageController.getStage().getMaxWidth() / 3);
 		this.getButtonClose().setAlignment(Pos.CENTER);
 
-        // Main Menu Button Functions
+        /**
+         * Event listener for buttonSingleplayer; loads "MENU_SP" scene.
+         */
 
 		this.getButtonSingleplayer().setOnAction(e -> {
             stageController.loadScene("MENU_SP");
 		});
 
+        /**
+         * Event listener for buttonMultiplayer; loads "MENU_MP" scene.
+         */
+
 		this.getButtonMultiplayer().setOnAction(e -> {
             stageController.loadScene("MENU_MP");
 		});
 
+        /**
+         * Event listener for buttonHowTo; shows an alert box with game instructions.
+         */
+
 		this.getButtonHowTo().setOnAction(e -> {
-            stageController.loadScene("MENU_HOW_TO");
-		});
+            Alert alertHowTo = new Alert(AlertType.INFORMATION);
+
+            // alert box text
+            alertHowTo.setTitle("How To Play");
+            alertHowTo.setHeaderText("How To Play");
+            alertHowTo.setContentText(
+                    "In Checkers you will face of your opponent on the board and going to try to defeat them. "
+                            + "A move consists of moving a piece diagonally to an adjacent unoccupied square. If the "
+                            + "adjacent square contains an opponent's piece, and the square immediately beyond it is "
+                            + "vacant, the piece may be captured (and removed from the game) by jumping over it.");
+    
+            // show alert box
+            alertHowTo.show();
+        });
+
+        /**
+         * Event listener for buttonSettings; loads "MENU_SETTINGS" scene.
+         */
 
 		this.getButtonSettings().setOnAction(e -> {
             stageController.loadScene("MENU_SETTINGS");
 		});
 
+        /**
+         * Event listener for buttonClose; exits game.
+         */
+
 		this.getButtonClose().setOnAction(e -> {
             stageController.exit();
 		});
+
+        /**
+         * Appends buttons to extended VBox and sets button alignment.
+         */
 
         this.getChildren().addAll(this.getButtonSingleplayer(), this.getButtonMultiplayer(), this.getButtonHowTo(), this.getButtonSettings(), this.getButtonClose());
         this.setAlignment(Pos.CENTER);

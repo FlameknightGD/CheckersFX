@@ -9,9 +9,18 @@ import javafx.scene.input.KeyEvent;
 
 public class MenuMain extends Scene
 {
+    /**
+     * Initialises an extension of Scene which is used as "MENU_MAIN" / MenuMain scene.
+     * @param stageController Reference to the stage controller.
+     */
+
     public MenuMain(StageController stageController)
     {
         super(new Root(stageController));
+
+        /**
+         * Event listener for ESC (Escape) key; exits game.
+         */
 
         this.setOnKeyPressed((EventHandler<? super KeyEvent>) new EventHandler<KeyEvent>()
         {
