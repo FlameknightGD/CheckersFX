@@ -508,6 +508,7 @@ public class Main extends Application {
 											int[] crewmate = space.getCoordinates();
 
 											setSelectedSpace(crewmate);
+											
 											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
 										}
 									}
