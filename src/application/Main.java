@@ -71,6 +71,8 @@ public class Main extends Application {
 
 	Space[][] boardSpaces = new Space[8][8];
 	Piece[][] boardPieces = new Piece[8][8];
+	
+	boolean selectedSpaceLocked = false;
 
 	// Main Method
 	public static void main(String[] args) {
@@ -333,6 +335,7 @@ public class Main extends Application {
 		});
 
 		buttonBlack.setOnAction(e -> {
+			setPlayerColor("black");
 			initializeBoard();
 
 			for (int i = 0; i < 8; i++) {
@@ -509,7 +512,11 @@ public class Main extends Application {
 
 											setSelectedSpace(crewmate);
 
-											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
+											if(selectedSpaceLocked == false)
+											{
+												System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
+												setSelectedSpaceLocked(true);
+											}
 										}
 									}
 								});
@@ -554,13 +561,21 @@ public class Main extends Application {
 
 											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
 
-											boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
+											//boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
 
-											boardPieces[x][y] = new Piece(52, Color.WHITE, z);
+											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
+											
+											if (getPlayerColor() == "white") {
+												boardPieces[x][y] = new Piece(52, Color.WHITE, z);
+											} else if (getPlayerColor() == "black") {
+												boardPieces[x][y] = new Piece(52, Color.BLACK, z);
+											}
+											
+											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
+											
+											updateBoard();
 
 											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
-
-											updateBoard();
 										}
 									}
 								});
@@ -628,6 +643,10 @@ public class Main extends Application {
 
 	public void setBoardPieces(Piece[][] boardPieces) {
 		this.boardPieces = boardPieces;
+	}
+	
+	public void setSelectedSpaceLocked(boolean locked) {
+		this.selectedSpaceLocked = locked;
 	}
 
 	// Getters
