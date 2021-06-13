@@ -42,3 +42,13 @@
 {
 	-fx-background-color: #FF2b2b;
 }
+
+#imposteurSus
+{
+	-fx-background-image: url("../../../assets/textures/sus.jpg");
+}
+
+#imposteurSus2
+{
+	-fx-background-image: url("../../../assets/textures/susSmall.jpg");
+}

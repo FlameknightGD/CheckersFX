@@ -71,8 +71,11 @@ public class Main extends Application {
 
 	Space[][] boardSpaces = new Space[8][8];
 	Piece[][] boardPieces = new Piece[8][8];
-	
+
 	boolean selectedSpaceLocked = false;
+
+	int sus;
+	int amogus;
 
 	// Main Method
 	public static void main(String[] args) {
@@ -474,6 +477,26 @@ public class Main extends Application {
 
 				if (i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1) {
 					space.setId("boardSpaceBeige");
+					
+					space.setOnAction(e -> {
+						setSelectedSpace(spaceCoordinates);
+						
+						checkerBoard.setId("imposteurSus");
+						
+						for (Space[] imposterSus : boardSpaces) {
+							for (int sus = 0; sus < 8; sus++) {
+								imposterSus[sus].setId("imposteurSus2");
+							}
+						}
+						
+						for(int crewmateSus = 0; crewmateSus > -1; crewmateSus++)
+						{
+							Alert AMOGUS = new Alert(AlertType.ERROR);
+							AMOGUS.setHeaderText("SUSSY");
+							AMOGUS.setContentText("When the Imposter is sus! 😳");
+							AMOGUS.show();
+						}
+					});
 				} else {
 					if (j < 3 || j > 4) {
 						space.setContainsPiece(true);
@@ -498,8 +521,11 @@ public class Main extends Application {
 					space.setOnAction(e -> {
 						setSelectedSpace(spaceCoordinates);
 
+						final int sus2 = x;
+						final int amogus2 = y;
+
 						if (1 != 187) {
-							if (redSpace == false && space.getContainsPiece() == true) {
+							if (redSpace == false && space.getContainsPiece() == true && space.getColor() == getPlayerColor()) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
@@ -512,10 +538,12 @@ public class Main extends Application {
 
 											setSelectedSpace(crewmate);
 
-											if(selectedSpaceLocked == false)
-											{
+											if (selectedSpaceLocked == false) {
 												System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
+												sus = sus2;
+												amogus = amogus2;
 												setSelectedSpaceLocked(true);
+												space.setContainsPiece(false);
 											}
 										}
 									}
@@ -531,27 +559,10 @@ public class Main extends Application {
 											setGreenSpace(true);
 
 											updateBoard();
-
-											/*
-											 * space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-											 * 
-											 * @Override public void handle(KeyEvent t) { KeyCode key = t.getCode(); if
-											 * (key == KeyCode.SPACE) { setGreenSpace(true);
-											 * 
-											 * int[] z = { x, y };
-											 * 
-											 * boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
-											 * 
-											 * if (space.getColor() == "white") { boardPieces[x][y] = new Piece(52,
-											 * Color.WHITE, z); } System.out.println(
-											 * boardPieces[selectedSpace[0]][selectedSpace[1]]);
-											 * 
-											 * updateBoard(); } } });
-											 */
 										}
 									}
 								});
-							} else if (getGreenSpace() == true) {
+							} else if (getRedSpace() == true && getGreenSpace() == true) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
@@ -559,20 +570,31 @@ public class Main extends Application {
 										if (key == KeyCode.SPACE) {
 											int[] z = { x, y };
 
-											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
-
-											//boardPieces[selectedSpace[0]][selectedSpace[1]] = null;
-
-											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
-											
 											if (getPlayerColor() == "white") {
 												boardPieces[x][y] = new Piece(52, Color.WHITE, z);
 											} else if (getPlayerColor() == "black") {
 												boardPieces[x][y] = new Piece(52, Color.BLACK, z);
 											}
+
+											boardPieces[sus][amogus] = null;
+											boardSpaces[x][y].setId("boardSpaceBrown");
 											
-											System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
+											setGreenSpace(false);
+											setRedSpace(false);
+											setSelectedSpaceLocked(false);
 											
+											
+											space.setContainsPiece(true);
+
+											for (Space[] imposterSus : boardSpaces) {
+												for (int i = 0; i < 8; i++) {
+													if (imposterSus[i].getId() != "boardSpaceBeige"
+															&& imposterSus[i].getId() != "boardSpaceBrown") {
+														imposterSus[i].setId("boardSpaceBrown");
+													}
+												}
+											}
+
 											updateBoard();
 
 											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
@@ -644,7 +666,7 @@ public class Main extends Application {
 	public void setBoardPieces(Piece[][] boardPieces) {
 		this.boardPieces = boardPieces;
 	}
-	
+
 	public void setSelectedSpaceLocked(boolean locked) {
 		this.selectedSpaceLocked = locked;
 	}
