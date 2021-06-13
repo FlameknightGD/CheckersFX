@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 
 import application.game.Piece;
 import application.game.Space;
+import application.utils.Amogus;
 import application.utils.Config;
 
 import javafx.application.Application;
@@ -40,7 +41,7 @@ public class Main extends Application {
 	// Initialize Panes
 	Pane root;
 	BorderPane menuPane = new BorderPane();
-	GridPane checkerBoard = new GridPane();
+	public static GridPane checkerBoard = new GridPane();
 
 	// Initialize VBoxes
 	VBox menuButtons = new VBox();
@@ -69,13 +70,15 @@ public class Main extends Application {
 
 	String playerColor;
 
-	Space[][] boardSpaces = new Space[8][8];
+	public static Space[][] boardSpaces = new Space[8][8];
 	Piece[][] boardPieces = new Piece[8][8];
 
 	boolean selectedSpaceLocked = false;
 
 	int sus;
 	int amogus;
+	
+	Amogus sussy = new Amogus();
 
 	// Main Method
 	public static void main(String[] args) {
@@ -477,134 +480,8 @@ public class Main extends Application {
 
 				if (i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1) {
 					space.setId("boardSpaceBeige");
-
-					space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-						@Override
-						public void handle(KeyEvent t) {
-							KeyCode key = t.getCode();
-							if (key == KeyCode.A) {
-								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-									@Override
-									public void handle(KeyEvent t) {
-										KeyCode key = t.getCode();
-										if (key == KeyCode.M) {
-											space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-												@Override
-												public void handle(KeyEvent t) {
-													KeyCode key = t.getCode();
-													if (key == KeyCode.O) {
-														space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-															@Override
-															public void handle(KeyEvent t) {
-																KeyCode key = t.getCode();
-																if (key == KeyCode.G) {
-																	space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-																		@Override
-																		public void handle(KeyEvent t) {
-																			KeyCode key = t.getCode();
-																			if (key == KeyCode.U) {
-																				space.setOnKeyPressed(
-																						new EventHandler<KeyEvent>() {
-																							@Override
-																							public void handle(
-																									KeyEvent t) {
-																								KeyCode key = t
-																										.getCode();
-																								if (key == KeyCode.S) {
-																									space.setOnAction(
-																											e -> {
-																												setSelectedSpace(
-																														spaceCoordinates);
-
-																												Media amogusSound = new Media(Paths.get("assets/audio/amogus.wav").toUri().toString());
-																												musicPlayer = new MediaPlayer(amogusSound);
-																												musicPlayer.setVolume(100);
-																												musicPlayer.setCycleCount(666);
-																												musicPlayer.play();
-																												
-																												checkerBoard
-																														.setId("imposteurSus");
-
-																												for (Space[] imposterSus : boardSpaces) {
-																													for (int sus = 0; sus < 8; sus++) {
-																														imposterSus[sus]
-																																.setId("imposteurSus2");
-																													}
-																												}
-
-																												Alert AMOGUS = new Alert(
-																														AlertType.ERROR);
-																												AMOGUS.setHeaderText(
-																														"SUSSY");
-																												AMOGUS.setTitle(
-																														"AMOGUS");
-																												AMOGUS.setContentText(
-																														"When the Imposter is sus! 😳"
-																																+ "⠀⠀⠀⡯⡯⡾⠝⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢊⠘⡮⣣⠪⠢⡑⡌\r\n"
-																																+ "⠀⠀⠀⠟⠝⠈⠀⠀⠀⠡⠀⠠⢈⠠⢐⢠⢂⢔⣐⢄⡂⢔⠀⡁⢉⠸⢨⢑⠕⡌\r\n"
-																																+ "⠀⠀⡀⠁⠀⠀⠀⡀⢂⠡⠈⡔⣕⢮⣳⢯⣿⣻⣟⣯⣯⢷⣫⣆⡂⠀⠀⢐⠑⡌\r\n"
-																																+ "⢀⠠⠐⠈⠀⢀⢂⠢⡂⠕⡁⣝⢮⣳⢽⡽⣾⣻⣿⣯⡯⣟⣞⢾⢜⢆⠀⡀⠀⠪\r\n"
-																																+ "⣬⠂⠀⠀⢀⢂⢪⠨⢂⠥⣺⡪⣗⢗⣽⢽⡯⣿⣽⣷⢿⡽⡾⡽⣝⢎⠀⠀⠀⢡\r\n"
-																																+ "⣿⠀⠀⠀⢂⠢⢂⢥⢱⡹⣪⢞⡵⣻⡪⡯⡯⣟⡾⣿⣻⡽⣯⡻⣪⠧⠑⠀⠁⢐\r\n"
-																																+ "⣿⠀⠀⠀⠢⢑⠠⠑⠕⡝⡎⡗⡝⡎⣞⢽⡹⣕⢯⢻⠹⡹⢚⠝⡷⡽⡨⠀⠀⢔\r\n"
-																																+ "⣿⡯⠀⢈⠈⢄⠂⠂⠐⠀⠌⠠⢑⠱⡱⡱⡑⢔⠁⠀⡀⠐⠐⠐⡡⡹⣪⠀⠀⢘\r\n"
-																																+ "⣿⣽⠀⡀⡊⠀⠐⠨⠈⡁⠂⢈⠠⡱⡽⣷⡑⠁⠠⠑⠀⢉⢇⣤⢘⣪⢽⠀⢌⢎\r\n"
-																																+ "⣿⢾⠀⢌⠌⠀⡁⠢⠂⠐⡀⠀⢀⢳⢽⣽⡺⣨⢄⣑⢉⢃⢭⡲⣕⡭⣹⠠⢐⢗\r\n"
-																																+ "⣿⡗⠀⠢⠡⡱⡸⣔⢵⢱⢸⠈⠀⡪⣳⣳⢹⢜⡵⣱⢱⡱⣳⡹⣵⣻⢔⢅⢬⡷\r\n"
-																																+ "⣷⡇⡂⠡⡑⢕⢕⠕⡑⠡⢂⢊⢐⢕⡝⡮⡧⡳⣝⢴⡐⣁⠃⡫⡒⣕⢏⡮⣷⡟\r\n"
-																																+ "⣷⣻⣅⠑⢌⠢⠁⢐⠠⠑⡐⠐⠌⡪⠮⡫⠪⡪⡪⣺⢸⠰⠡⠠⠐⢱⠨⡪⡪⡰\r\n"
-																																+ "⣯⢷⣟⣇⡂⡂⡌⡀⠀⠁⡂⠅⠂⠀⡑⡄⢇⠇⢝⡨⡠⡁⢐⠠⢀⢪⡐⡜⡪⡊\r\n"
-																																+ "⣿⢽⡾⢹⡄⠕⡅⢇⠂⠑⣴⡬⣬⣬⣆⢮⣦⣷⣵⣷⡗⢃⢮⠱⡸⢰⢱⢸⢨⢌\r\n"
-																																+ "⣯⢯⣟⠸⣳⡅⠜⠔⡌⡐⠈⠻⠟⣿⢿⣿⣿⠿⡻⣃⠢⣱⡳⡱⡩⢢⠣⡃⠢⠁\r\n"
-																																+ "⡯⣟⣞⡇⡿⣽⡪⡘⡰⠨⢐⢀⠢⢢⢄⢤⣰⠼⡾⢕⢕⡵⣝⠎⢌⢪⠪⡘⡌⠀\r\n"
-																																+ "⡯⣳⠯⠚⢊⠡⡂⢂⠨⠊⠔⡑⠬⡸⣘⢬⢪⣪⡺⡼⣕⢯⢞⢕⢝⠎⢻⢼⣀⠀\r\n"
-																																+ "⠁⡂⠔⡁⡢⠣⢀⠢⠀⠅⠱⡐⡱⡘⡔⡕⡕⣲⡹⣎⡮⡏⡑⢜⢼⡱⢩⣗⣯⣟\r\n"
-																																+ "⢀⢂⢑⠀⡂⡃⠅⠊⢄⢑⠠⠑⢕⢕⢝⢮⢺⢕⢟⢮⢊⢢⢱⢄⠃⣇⣞⢞⣞⢾\r\n"
-																																+ "⢀⠢⡑⡀⢂⢊⠠⠁⡂⡐⠀⠅⡈⠪⠪⠪⠣⠫⠑⡁⢔⠕⣜⣜⢦⡰⡎⡯⡾⡽");
-																												AMOGUS.show();
-
-																												System.out
-																														.println(
-																																"⠀⠀⠀⡯⡯⡾⠝⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢊⠘⡮⣣⠪⠢⡑⡌\r\n"
-																																		+ "⠀⠀⠀⠟⠝⠈⠀⠀⠀⠡⠀⠠⢈⠠⢐⢠⢂⢔⣐⢄⡂⢔⠀⡁⢉⠸⢨⢑⠕⡌\r\n"
-																																		+ "⠀⠀⡀⠁⠀⠀⠀⡀⢂⠡⠈⡔⣕⢮⣳⢯⣿⣻⣟⣯⣯⢷⣫⣆⡂⠀⠀⢐⠑⡌\r\n"
-																																		+ "⢀⠠⠐⠈⠀⢀⢂⠢⡂⠕⡁⣝⢮⣳⢽⡽⣾⣻⣿⣯⡯⣟⣞⢾⢜⢆⠀⡀⠀⠪\r\n"
-																																		+ "⣬⠂⠀⠀⢀⢂⢪⠨⢂⠥⣺⡪⣗⢗⣽⢽⡯⣿⣽⣷⢿⡽⡾⡽⣝⢎⠀⠀⠀⢡\r\n"
-																																		+ "⣿⠀⠀⠀⢂⠢⢂⢥⢱⡹⣪⢞⡵⣻⡪⡯⡯⣟⡾⣿⣻⡽⣯⡻⣪⠧⠑⠀⠁⢐\r\n"
-																																		+ "⣿⠀⠀⠀⠢⢑⠠⠑⠕⡝⡎⡗⡝⡎⣞⢽⡹⣕⢯⢻⠹⡹⢚⠝⡷⡽⡨⠀⠀⢔\r\n"
-																																		+ "⣿⡯⠀⢈⠈⢄⠂⠂⠐⠀⠌⠠⢑⠱⡱⡱⡑⢔⠁⠀⡀⠐⠐⠐⡡⡹⣪⠀⠀⢘\r\n"
-																																		+ "⣿⣽⠀⡀⡊⠀⠐⠨⠈⡁⠂⢈⠠⡱⡽⣷⡑⠁⠠⠑⠀⢉⢇⣤⢘⣪⢽⠀⢌⢎\r\n"
-																																		+ "⣿⢾⠀⢌⠌⠀⡁⠢⠂⠐⡀⠀⢀⢳⢽⣽⡺⣨⢄⣑⢉⢃⢭⡲⣕⡭⣹⠠⢐⢗\r\n"
-																																		+ "⣿⡗⠀⠢⠡⡱⡸⣔⢵⢱⢸⠈⠀⡪⣳⣳⢹⢜⡵⣱⢱⡱⣳⡹⣵⣻⢔⢅⢬⡷\r\n"
-																																		+ "⣷⡇⡂⠡⡑⢕⢕⠕⡑⠡⢂⢊⢐⢕⡝⡮⡧⡳⣝⢴⡐⣁⠃⡫⡒⣕⢏⡮⣷⡟\r\n"
-																																		+ "⣷⣻⣅⠑⢌⠢⠁⢐⠠⠑⡐⠐⠌⡪⠮⡫⠪⡪⡪⣺⢸⠰⠡⠠⠐⢱⠨⡪⡪⡰\r\n"
-																																		+ "⣯⢷⣟⣇⡂⡂⡌⡀⠀⠁⡂⠅⠂⠀⡑⡄⢇⠇⢝⡨⡠⡁⢐⠠⢀⢪⡐⡜⡪⡊\r\n"
-																																		+ "⣿⢽⡾⢹⡄⠕⡅⢇⠂⠑⣴⡬⣬⣬⣆⢮⣦⣷⣵⣷⡗⢃⢮⠱⡸⢰⢱⢸⢨⢌\r\n"
-																																		+ "⣯⢯⣟⠸⣳⡅⠜⠔⡌⡐⠈⠻⠟⣿⢿⣿⣿⠿⡻⣃⠢⣱⡳⡱⡩⢢⠣⡃⠢⠁\r\n"
-																																		+ "⡯⣟⣞⡇⡿⣽⡪⡘⡰⠨⢐⢀⠢⢢⢄⢤⣰⠼⡾⢕⢕⡵⣝⠎⢌⢪⠪⡘⡌⠀\r\n"
-																																		+ "⡯⣳⠯⠚⢊⠡⡂⢂⠨⠊⠔⡑⠬⡸⣘⢬⢪⣪⡺⡼⣕⢯⢞⢕⢝⠎⢻⢼⣀⠀\r\n"
-																																		+ "⠁⡂⠔⡁⡢⠣⢀⠢⠀⠅⠱⡐⡱⡘⡔⡕⡕⣲⡹⣎⡮⡏⡑⢜⢼⡱⢩⣗⣯⣟\r\n"
-																																		+ "⢀⢂⢑⠀⡂⡃⠅⠊⢄⢑⠠⠑⢕⢕⢝⢮⢺⢕⢟⢮⢊⢢⢱⢄⠃⣇⣞⢞⣞⢾\r\n"
-																																		+ "⢀⠢⡑⡀⢂⢊⠠⠁⡂⡐⠀⠅⡈⠪⠪⠪⠣⠫⠑⡁⢔⠕⣜⣜⢦⡰⡎⡯⡾⡽");
-																											});
-																								}
-																							}
-																						});
-																			}
-																		}
-																	});
-																}
-															}
-														});
-													}
-												}
-											});
-										}
-									}
-								});
-							}
-						}
-					});
+					
+					sussy.amogus(space);
 				} else {
 					if (j < 3 || j > 4) {
 						space.setContainsPiece(true);
