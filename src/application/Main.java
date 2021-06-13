@@ -477,24 +477,132 @@ public class Main extends Application {
 
 				if (i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1) {
 					space.setId("boardSpaceBeige");
-					
-					space.setOnAction(e -> {
-						setSelectedSpace(spaceCoordinates);
-						
-						checkerBoard.setId("imposteurSus");
-						
-						for (Space[] imposterSus : boardSpaces) {
-							for (int sus = 0; sus < 8; sus++) {
-								imposterSus[sus].setId("imposteurSus2");
+
+					space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+						@Override
+						public void handle(KeyEvent t) {
+							KeyCode key = t.getCode();
+							if (key == KeyCode.A) {
+								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+									@Override
+									public void handle(KeyEvent t) {
+										KeyCode key = t.getCode();
+										if (key == KeyCode.M) {
+											space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+												@Override
+												public void handle(KeyEvent t) {
+													KeyCode key = t.getCode();
+													if (key == KeyCode.O) {
+														space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+															@Override
+															public void handle(KeyEvent t) {
+																KeyCode key = t.getCode();
+																if (key == KeyCode.G) {
+																	space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+																		@Override
+																		public void handle(KeyEvent t) {
+																			KeyCode key = t.getCode();
+																			if (key == KeyCode.U) {
+																				space.setOnKeyPressed(
+																						new EventHandler<KeyEvent>() {
+																							@Override
+																							public void handle(
+																									KeyEvent t) {
+																								KeyCode key = t
+																										.getCode();
+																								if (key == KeyCode.S) {
+																									space.setOnAction(
+																											e -> {
+																												setSelectedSpace(
+																														spaceCoordinates);
+
+																												Media amogusSound = new Media(Paths.get("assets/audio/amogus.wav").toUri().toString());
+																												musicPlayer = new MediaPlayer(amogusSound);
+																												musicPlayer.setVolume(100);
+																												musicPlayer.setCycleCount(666);
+																												musicPlayer.play();
+																												
+																												checkerBoard
+																														.setId("imposteurSus");
+
+																												for (Space[] imposterSus : boardSpaces) {
+																													for (int sus = 0; sus < 8; sus++) {
+																														imposterSus[sus]
+																																.setId("imposteurSus2");
+																													}
+																												}
+
+																												Alert AMOGUS = new Alert(
+																														AlertType.ERROR);
+																												AMOGUS.setHeaderText(
+																														"SUSSY");
+																												AMOGUS.setTitle(
+																														"AMOGUS");
+																												AMOGUS.setContentText(
+																														"When the Imposter is sus! 😳"
+																																+ "⠀⠀⠀⡯⡯⡾⠝⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢊⠘⡮⣣⠪⠢⡑⡌\r\n"
+																																+ "⠀⠀⠀⠟⠝⠈⠀⠀⠀⠡⠀⠠⢈⠠⢐⢠⢂⢔⣐⢄⡂⢔⠀⡁⢉⠸⢨⢑⠕⡌\r\n"
+																																+ "⠀⠀⡀⠁⠀⠀⠀⡀⢂⠡⠈⡔⣕⢮⣳⢯⣿⣻⣟⣯⣯⢷⣫⣆⡂⠀⠀⢐⠑⡌\r\n"
+																																+ "⢀⠠⠐⠈⠀⢀⢂⠢⡂⠕⡁⣝⢮⣳⢽⡽⣾⣻⣿⣯⡯⣟⣞⢾⢜⢆⠀⡀⠀⠪\r\n"
+																																+ "⣬⠂⠀⠀⢀⢂⢪⠨⢂⠥⣺⡪⣗⢗⣽⢽⡯⣿⣽⣷⢿⡽⡾⡽⣝⢎⠀⠀⠀⢡\r\n"
+																																+ "⣿⠀⠀⠀⢂⠢⢂⢥⢱⡹⣪⢞⡵⣻⡪⡯⡯⣟⡾⣿⣻⡽⣯⡻⣪⠧⠑⠀⠁⢐\r\n"
+																																+ "⣿⠀⠀⠀⠢⢑⠠⠑⠕⡝⡎⡗⡝⡎⣞⢽⡹⣕⢯⢻⠹⡹⢚⠝⡷⡽⡨⠀⠀⢔\r\n"
+																																+ "⣿⡯⠀⢈⠈⢄⠂⠂⠐⠀⠌⠠⢑⠱⡱⡱⡑⢔⠁⠀⡀⠐⠐⠐⡡⡹⣪⠀⠀⢘\r\n"
+																																+ "⣿⣽⠀⡀⡊⠀⠐⠨⠈⡁⠂⢈⠠⡱⡽⣷⡑⠁⠠⠑⠀⢉⢇⣤⢘⣪⢽⠀⢌⢎\r\n"
+																																+ "⣿⢾⠀⢌⠌⠀⡁⠢⠂⠐⡀⠀⢀⢳⢽⣽⡺⣨⢄⣑⢉⢃⢭⡲⣕⡭⣹⠠⢐⢗\r\n"
+																																+ "⣿⡗⠀⠢⠡⡱⡸⣔⢵⢱⢸⠈⠀⡪⣳⣳⢹⢜⡵⣱⢱⡱⣳⡹⣵⣻⢔⢅⢬⡷\r\n"
+																																+ "⣷⡇⡂⠡⡑⢕⢕⠕⡑⠡⢂⢊⢐⢕⡝⡮⡧⡳⣝⢴⡐⣁⠃⡫⡒⣕⢏⡮⣷⡟\r\n"
+																																+ "⣷⣻⣅⠑⢌⠢⠁⢐⠠⠑⡐⠐⠌⡪⠮⡫⠪⡪⡪⣺⢸⠰⠡⠠⠐⢱⠨⡪⡪⡰\r\n"
+																																+ "⣯⢷⣟⣇⡂⡂⡌⡀⠀⠁⡂⠅⠂⠀⡑⡄⢇⠇⢝⡨⡠⡁⢐⠠⢀⢪⡐⡜⡪⡊\r\n"
+																																+ "⣿⢽⡾⢹⡄⠕⡅⢇⠂⠑⣴⡬⣬⣬⣆⢮⣦⣷⣵⣷⡗⢃⢮⠱⡸⢰⢱⢸⢨⢌\r\n"
+																																+ "⣯⢯⣟⠸⣳⡅⠜⠔⡌⡐⠈⠻⠟⣿⢿⣿⣿⠿⡻⣃⠢⣱⡳⡱⡩⢢⠣⡃⠢⠁\r\n"
+																																+ "⡯⣟⣞⡇⡿⣽⡪⡘⡰⠨⢐⢀⠢⢢⢄⢤⣰⠼⡾⢕⢕⡵⣝⠎⢌⢪⠪⡘⡌⠀\r\n"
+																																+ "⡯⣳⠯⠚⢊⠡⡂⢂⠨⠊⠔⡑⠬⡸⣘⢬⢪⣪⡺⡼⣕⢯⢞⢕⢝⠎⢻⢼⣀⠀\r\n"
+																																+ "⠁⡂⠔⡁⡢⠣⢀⠢⠀⠅⠱⡐⡱⡘⡔⡕⡕⣲⡹⣎⡮⡏⡑⢜⢼⡱⢩⣗⣯⣟\r\n"
+																																+ "⢀⢂⢑⠀⡂⡃⠅⠊⢄⢑⠠⠑⢕⢕⢝⢮⢺⢕⢟⢮⢊⢢⢱⢄⠃⣇⣞⢞⣞⢾\r\n"
+																																+ "⢀⠢⡑⡀⢂⢊⠠⠁⡂⡐⠀⠅⡈⠪⠪⠪⠣⠫⠑⡁⢔⠕⣜⣜⢦⡰⡎⡯⡾⡽");
+																												AMOGUS.show();
+
+																												System.out
+																														.println(
+																																"⠀⠀⠀⡯⡯⡾⠝⠘⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢊⠘⡮⣣⠪⠢⡑⡌\r\n"
+																																		+ "⠀⠀⠀⠟⠝⠈⠀⠀⠀⠡⠀⠠⢈⠠⢐⢠⢂⢔⣐⢄⡂⢔⠀⡁⢉⠸⢨⢑⠕⡌\r\n"
+																																		+ "⠀⠀⡀⠁⠀⠀⠀⡀⢂⠡⠈⡔⣕⢮⣳⢯⣿⣻⣟⣯⣯⢷⣫⣆⡂⠀⠀⢐⠑⡌\r\n"
+																																		+ "⢀⠠⠐⠈⠀⢀⢂⠢⡂⠕⡁⣝⢮⣳⢽⡽⣾⣻⣿⣯⡯⣟⣞⢾⢜⢆⠀⡀⠀⠪\r\n"
+																																		+ "⣬⠂⠀⠀⢀⢂⢪⠨⢂⠥⣺⡪⣗⢗⣽⢽⡯⣿⣽⣷⢿⡽⡾⡽⣝⢎⠀⠀⠀⢡\r\n"
+																																		+ "⣿⠀⠀⠀⢂⠢⢂⢥⢱⡹⣪⢞⡵⣻⡪⡯⡯⣟⡾⣿⣻⡽⣯⡻⣪⠧⠑⠀⠁⢐\r\n"
+																																		+ "⣿⠀⠀⠀⠢⢑⠠⠑⠕⡝⡎⡗⡝⡎⣞⢽⡹⣕⢯⢻⠹⡹⢚⠝⡷⡽⡨⠀⠀⢔\r\n"
+																																		+ "⣿⡯⠀⢈⠈⢄⠂⠂⠐⠀⠌⠠⢑⠱⡱⡱⡑⢔⠁⠀⡀⠐⠐⠐⡡⡹⣪⠀⠀⢘\r\n"
+																																		+ "⣿⣽⠀⡀⡊⠀⠐⠨⠈⡁⠂⢈⠠⡱⡽⣷⡑⠁⠠⠑⠀⢉⢇⣤⢘⣪⢽⠀⢌⢎\r\n"
+																																		+ "⣿⢾⠀⢌⠌⠀⡁⠢⠂⠐⡀⠀⢀⢳⢽⣽⡺⣨⢄⣑⢉⢃⢭⡲⣕⡭⣹⠠⢐⢗\r\n"
+																																		+ "⣿⡗⠀⠢⠡⡱⡸⣔⢵⢱⢸⠈⠀⡪⣳⣳⢹⢜⡵⣱⢱⡱⣳⡹⣵⣻⢔⢅⢬⡷\r\n"
+																																		+ "⣷⡇⡂⠡⡑⢕⢕⠕⡑⠡⢂⢊⢐⢕⡝⡮⡧⡳⣝⢴⡐⣁⠃⡫⡒⣕⢏⡮⣷⡟\r\n"
+																																		+ "⣷⣻⣅⠑⢌⠢⠁⢐⠠⠑⡐⠐⠌⡪⠮⡫⠪⡪⡪⣺⢸⠰⠡⠠⠐⢱⠨⡪⡪⡰\r\n"
+																																		+ "⣯⢷⣟⣇⡂⡂⡌⡀⠀⠁⡂⠅⠂⠀⡑⡄⢇⠇⢝⡨⡠⡁⢐⠠⢀⢪⡐⡜⡪⡊\r\n"
+																																		+ "⣿⢽⡾⢹⡄⠕⡅⢇⠂⠑⣴⡬⣬⣬⣆⢮⣦⣷⣵⣷⡗⢃⢮⠱⡸⢰⢱⢸⢨⢌\r\n"
+																																		+ "⣯⢯⣟⠸⣳⡅⠜⠔⡌⡐⠈⠻⠟⣿⢿⣿⣿⠿⡻⣃⠢⣱⡳⡱⡩⢢⠣⡃⠢⠁\r\n"
+																																		+ "⡯⣟⣞⡇⡿⣽⡪⡘⡰⠨⢐⢀⠢⢢⢄⢤⣰⠼⡾⢕⢕⡵⣝⠎⢌⢪⠪⡘⡌⠀\r\n"
+																																		+ "⡯⣳⠯⠚⢊⠡⡂⢂⠨⠊⠔⡑⠬⡸⣘⢬⢪⣪⡺⡼⣕⢯⢞⢕⢝⠎⢻⢼⣀⠀\r\n"
+																																		+ "⠁⡂⠔⡁⡢⠣⢀⠢⠀⠅⠱⡐⡱⡘⡔⡕⡕⣲⡹⣎⡮⡏⡑⢜⢼⡱⢩⣗⣯⣟\r\n"
+																																		+ "⢀⢂⢑⠀⡂⡃⠅⠊⢄⢑⠠⠑⢕⢕⢝⢮⢺⢕⢟⢮⢊⢢⢱⢄⠃⣇⣞⢞⣞⢾\r\n"
+																																		+ "⢀⠢⡑⡀⢂⢊⠠⠁⡂⡐⠀⠅⡈⠪⠪⠪⠣⠫⠑⡁⢔⠕⣜⣜⢦⡰⡎⡯⡾⡽");
+																											});
+																								}
+																							}
+																						});
+																			}
+																		}
+																	});
+																}
+															}
+														});
+													}
+												}
+											});
+										}
+									}
+								});
 							}
-						}
-						
-						for(int crewmateSus = 0; crewmateSus > -1; crewmateSus++)
-						{
-							Alert AMOGUS = new Alert(AlertType.ERROR);
-							AMOGUS.setHeaderText("SUSSY");
-							AMOGUS.setContentText("When the Imposter is sus! 😳");
-							AMOGUS.show();
 						}
 					});
 				} else {
@@ -525,7 +633,8 @@ public class Main extends Application {
 						final int amogus2 = y;
 
 						if (1 != 187) {
-							if (redSpace == false && space.getContainsPiece() == true && space.getColor() == getPlayerColor()) {
+							if (redSpace == false && space.getContainsPiece() == true
+									&& space.getColor() == getPlayerColor()) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
@@ -578,12 +687,11 @@ public class Main extends Application {
 
 											boardPieces[sus][amogus] = null;
 											boardSpaces[x][y].setId("boardSpaceBrown");
-											
+
 											setGreenSpace(false);
 											setRedSpace(false);
 											setSelectedSpaceLocked(false);
-											
-											
+
 											space.setContainsPiece(true);
 
 											for (Space[] imposterSus : boardSpaces) {
