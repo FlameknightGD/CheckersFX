@@ -1,12 +1,14 @@
 package application;
 
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 import application.exceptions.InvalidParamException;
 import application.game.Piece;
 import application.game.Space;
-import application.utils.Config;
-
+import application.utils.ConfigHandler;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -46,13 +48,15 @@ public class Main extends Application {
 	VBox vBoxVolumeSlider = new VBox();
 
 	// Initialize Config File
-	Config configFile = new Config("config\\config.txt");
+	//Config configFile = new Config("config\\config.txt");
+	
+	File configFile = new File("config/config.txt");
+	ConfigHandler configHandler = new ConfigHandler(configFile);
 
 	// Background Music
 	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
 
-	double backgroundMusicVolume = 0.0;
 	// TODO Fix The ConfigParser Get Method Ffs
 
 	// Global Variables
@@ -83,7 +87,7 @@ public class Main extends Application {
 
 	// Start Method
 	@Override
-	public void start(Stage primaryStage) throws InvalidParamException {
+	public void start(Stage primaryStage) throws InvalidParamException, IOException {
 		// Set Initial Witdh And Height
 		width = 1280;
 		height = 720;
@@ -129,7 +133,7 @@ public class Main extends Application {
 		// Configure Music Player
 		musicPlayer.setAutoPlay(true);
 		musicPlayer.setCycleCount(2147483647);
-		musicPlayer.setVolume(backgroundMusicVolume);
+		musicPlayer.setVolume(configHandler.getVolumeFromConfig(configFile));
 
 		// Configure CheckerBoard GridPane
 		checkerBoard.setPadding(new Insets(28, 448, 28, 448));
@@ -447,7 +451,7 @@ public class Main extends Application {
 		}
 
 		// Configure Volume Slider VBox
-		vBoxVolumeSlider.setPrefSize(width / 3, height / 1.5);
+		vBoxVolumeSlider.setPrefSize(width / 3, height);
 		vBoxVolumeSlider.setAlignment(Pos.CENTER);
 		vBoxVolumeSlider.setId("vbox_visible_border");
 
@@ -456,15 +460,22 @@ public class Main extends Application {
 		if (menuPane.getChildren().contains(vBoxVolumeSlider) == false) {
 			menuPane.getChildren().add(vBoxVolumeSlider);
 		}
+		
+		HashMap<String, String> values = new HashMap<String, String>();
 
 		// Listener For Volume Slider
 		volumeSlider.valueProperty().addListener(new ChangeListener<Number>() {
 			public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
 				double newVolume = newValue.doubleValue() * 0.0025;
 				musicPlayer.setVolume(newVolume);
-
-				configFile.put("volume", String.valueOf(newVolume));
-				configFile.write();
+				
+				values.put("volume", String.valueOf(newVolume));
+				
+				try {
+					configHandler.writeConfig(values);
+				} catch (IOException ioException) {
+					ioException.printStackTrace();
+				}
 			}
 		});
 
