@@ -2,9 +2,9 @@ package application;
 
 import java.nio.file.Paths;
 
+import application.exceptions.InvalidParamException;
 import application.game.Piece;
 import application.game.Space;
-import application.utils.Amogus;
 import application.utils.Config;
 
 import javafx.application.Application;
@@ -13,7 +13,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,7 +28,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -41,7 +39,7 @@ public class Main extends Application {
 	// Initialize Panes
 	Pane root;
 	BorderPane menuPane = new BorderPane();
-	public static GridPane checkerBoard = new GridPane();
+	public GridPane checkerBoard = new GridPane();
 
 	// Initialize VBoxes
 	VBox menuButtons = new VBox();
@@ -65,20 +63,18 @@ public class Main extends Application {
 
 	int[] selectedSpace = new int[2];
 
-	boolean redSpace = false;
-	boolean greenSpace = false;
+	boolean redSpaceActive = false;
+	boolean greenSpaceActive = false;
 
 	String playerColor;
 
-	public static Space[][] boardSpaces = new Space[8][8];
+	Space[][] boardSpaces = new Space[8][8];
 	Piece[][] boardPieces = new Piece[8][8];
 
-	boolean selectedSpaceLocked = false;
+	boolean spaceLock = false;
 
-	int sus;
-	int amogus;
-	
-	Amogus sussy = new Amogus();
+	int coordUtilX;
+	int coordUtilY;
 
 	// Main Method
 	public static void main(String[] args) {
@@ -87,7 +83,7 @@ public class Main extends Application {
 
 	// Start Method
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws InvalidParamException {
 		// Set Initial Witdh And Height
 		width = 1280;
 		height = 720;
@@ -110,13 +106,21 @@ public class Main extends Application {
 		primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
 			width = (double) newVal;
 			updateWidth((double) newVal, (double) oldVal);
-			updateScreen();
+			try {
+				updateScreen();
+			} catch (InvalidParamException e) {
+				e.printStackTrace();
+			}
 		});
 
 		primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
 			height = (double) newVal;
 			updateHeight((double) newVal, (double) oldVal);
-			updateScreen();
+			try {
+				updateScreen();
+			} catch (InvalidParamException e) {
+				e.printStackTrace();
+			}
 		});
 
 		// Set Size Of VBox
@@ -157,7 +161,11 @@ public class Main extends Application {
 			public void handle(KeyEvent t) {
 				KeyCode key = t.getCode();
 				if (key == KeyCode.ESCAPE) {
-					back();
+					try {
+						back();
+					} catch (InvalidParamException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		});
@@ -187,7 +195,7 @@ public class Main extends Application {
 	}
 
 	// Update Screen
-	public void updateScreen() {
+	public void updateScreen() throws InvalidParamException {
 		// Remove Children From Previous Menu
 		menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 
@@ -202,7 +210,7 @@ public class Main extends Application {
 			}
 			break;
 		case 2:
-			menuSingleplayer();
+			menuPlay();
 			switch (menuPane.getChildren().size()) {
 			case 1:
 				menuPane.getChildren().remove(vBoxVolumeSlider);
@@ -210,7 +218,7 @@ public class Main extends Application {
 			}
 			break;
 		case 3:
-			menuMultiplayer();
+			menuHowToPlay();
 			switch (menuPane.getChildren().size()) {
 			case 1:
 				menuPane.getChildren().remove(vBoxVolumeSlider);
@@ -225,25 +233,20 @@ public class Main extends Application {
 	}
 
 	// Main Menu Method
-	public void mainMenu() {
+	public void mainMenu() throws InvalidParamException {
 		// Set Menu ID
 		setMenuId(1);
 
 		// Initialize Buttons
-		Button buttonSingleplayer = new Button("Singleplayer");
-		Button buttonMultiplayer = new Button("Multiplayer");
+		Button buttonPlay = new Button("Play");
 		Button buttonHowToPlay = new Button("How To Play");
 		Button buttonSettings = new Button("Settings");
 		Button buttonClose = new Button("Close Game");
 
 		// Configure Buttons
-		buttonSingleplayer.setId("menu_button");
-		buttonSingleplayer.setMaxWidth(width / 3);
-		buttonSingleplayer.setAlignment(Pos.CENTER);
-
-		buttonMultiplayer.setId("menu_button");
-		buttonMultiplayer.setMaxWidth(width / 3);
-		buttonMultiplayer.setAlignment(Pos.CENTER);
+		buttonPlay.setId("menu_button");
+		buttonPlay.setMaxWidth(width / 3);
+		buttonPlay.setAlignment(Pos.CENTER);
 
 		buttonHowToPlay.setId("menu_button");
 		buttonHowToPlay.setMaxWidth(width / 3);
@@ -258,34 +261,45 @@ public class Main extends Application {
 		buttonClose.setAlignment(Pos.CENTER);
 
 		// Add Buttons To MenuButtons VBox
-		menuButtons.getChildren().addAll(buttonSingleplayer, buttonMultiplayer, buttonHowToPlay, buttonSettings,
-				buttonClose);
+		menuButtons.getChildren().addAll(buttonPlay, buttonHowToPlay, buttonSettings, buttonClose);
 		menuButtons.setAlignment(Pos.CENTER);
 
 		// Main Menu Button Functions
-		buttonSingleplayer.setOnAction(e -> {
-			menuSingleplayer();
-		});
-
-		buttonMultiplayer.setOnAction(e -> {
-			menuMultiplayer();
+		buttonPlay.setOnAction(e -> {
+			try {
+				menuPlay();
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
 		});
 
 		buttonHowToPlay.setOnAction(e -> {
-			menuHowToPlay();
+			try {
+				menuHowToPlay();
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
 		});
 
 		buttonSettings.setOnAction(e -> {
-			menuSettings();
+			try {
+				menuSettings();
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
 		});
 
 		buttonClose.setOnAction(e -> {
-			back();
+			try {
+				back();
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
 		});
 	}
 
-	// Singleplayer Menu Method
-	public void menuSingleplayer() {
+	//Play Menu Method
+	public void menuPlay() throws InvalidParamException {
 		// Set Menu ID
 		setMenuId(2);
 
@@ -312,8 +326,17 @@ public class Main extends Application {
 
 		// Singleplayer Menu Button Functions
 		buttonWhite.setOnAction(e -> {
-			setPlayerColor("white");
-			initializeBoard();
+			try {
+				setPlayerColor("white");
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
+			
+			try {
+				initializeBoard();
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
 
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
@@ -341,8 +364,17 @@ public class Main extends Application {
 		});
 
 		buttonBlack.setOnAction(e -> {
-			setPlayerColor("black");
-			initializeBoard();
+			try {
+				setPlayerColor("black");
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
+			
+			try {
+				initializeBoard();
+			} catch (InvalidParamException invParamException) {
+				invParamException.printStackTrace();
+			}
 
 			for (int i = 0; i < 8; i++) {
 				for (int j = 0; j < 8; j++) {
@@ -370,7 +402,10 @@ public class Main extends Application {
 		});
 	}
 
-	public void menuHowToPlay() {
+	public void menuHowToPlay() throws InvalidParamException {
+		// Set Menu ID
+		setMenuId(3);
+
 		// Initialize AlertBox
 		Alert alertHowToPlay = new Alert(AlertType.INFORMATION);
 
@@ -387,14 +422,7 @@ public class Main extends Application {
 		alertHowToPlay.show();
 	}
 
-	public void menuMultiplayer() {
-		// Set Menu ID
-		setMenuId(3);
-
-		// TODO Implement Multiplayer Mode
-	}
-
-	public void menuSettings() {
+	public void menuSettings() throws InvalidParamException {
 		// Set Menu ID
 		setMenuId(4);
 
@@ -436,7 +464,7 @@ public class Main extends Application {
 	}
 
 	// Back Method
-	public void back() {
+	public void back() throws InvalidParamException {
 		switch (menuId) {
 		// Close Game
 		case 1:
@@ -445,7 +473,7 @@ public class Main extends Application {
 
 		// Go Back To Main Menu
 		case 2:
-			setMenuId(1);
+			setMenuId(6);
 			updateScreen();
 			break;
 		case 3:
@@ -463,7 +491,7 @@ public class Main extends Application {
 		}
 	}
 
-	public void initializeBoard() {
+	public void initializeBoard() throws InvalidParamException {
 		Scene checkerBoardScene = new Scene(checkerBoard);
 		checkerBoard.setId("checkerBoardPane");
 		checkerBoard.getStylesheets().add(getClass().getResource("css/board.css").toExternalForm());
@@ -480,22 +508,20 @@ public class Main extends Application {
 
 				if (i % 2 == 0 && j % 2 == 0 || i % 2 == 1 && j % 2 == 1) {
 					space.setId("boardSpaceBeige");
-					
-					sussy.amogus(space);
 				} else {
 					if (j < 3 || j > 4) {
 						space.setContainsPiece(true);
 						if (getPlayerColor() == "white") {
 							if (j > 4) {
-								space.setColor("white");
+								space.setPieceColor("white");
 							} else {
-								space.setColor("black");
+								space.setPieceColor("black");
 							}
 						} else {
 							if (j < 3) {
-								space.setColor("black");
+								space.setPieceColor("black");
 							} else {
-								space.setColor("white");
+								space.setPieceColor("white");
 							}
 						}
 					}
@@ -504,37 +530,44 @@ public class Main extends Application {
 					space.setCoordinates(spaceCoordinates);
 
 					space.setOnAction(e -> {
-						setSelectedSpace(spaceCoordinates);
+						try {
+							setSelectedSpace(spaceCoordinates);
+						} catch (InvalidParamException invParamException) {
+							invParamException.printStackTrace();
+						}
 
-						final int sus2 = x;
-						final int amogus2 = y;
+						final int coordUtilXTemp = x;
+						final int coordUtilYTemp = y;
 
 						if (1 != 187) {
-							if (redSpace == false && space.getContainsPiece() == true
-									&& space.getColor() == getPlayerColor()) {
+							if (getRedSpaceActive() == false && space.getContainsPiece() == true
+									&& space.getPieceColor() == getPlayerColor()) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
 										KeyCode key = t.getCode();
 										if (key == KeyCode.ENTER) {
 											space.setId("spaceSelectedRed");
-											setRedSpace(true);
+											setRedSpaceActive(true);
 
-											int[] crewmate = space.getCoordinates();
+											int[] coordsTemp = space.getCoordinates();
+											try {
+												setSelectedSpace(coordsTemp);
+											} catch (InvalidParamException invParamException) {
+												invParamException.printStackTrace();
+											}
 
-											setSelectedSpace(crewmate);
+											if (getSpaceLock() == false) {
+												coordUtilX = coordUtilXTemp;
+												coordUtilY = coordUtilYTemp;
 
-											if (selectedSpaceLocked == false) {
-												System.out.println(selectedSpace[0] + ", " + selectedSpace[1]);
-												sus = sus2;
-												amogus = amogus2;
 												setSelectedSpaceLocked(true);
 												space.setContainsPiece(false);
 											}
 										}
 									}
 								});
-							} else if (getRedSpace() == true && getGreenSpace() == false
+							} else if (getRedSpaceActive() == true && getGreenSpaceActive() == false
 									&& space.getContainsPiece() == false) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
@@ -542,13 +575,15 @@ public class Main extends Application {
 										KeyCode key = t.getCode();
 										if (key == KeyCode.ENTER) {
 											space.setId("spaceSelectedGreen");
-											setGreenSpace(true);
+											setGreenSpaceActive(true);
+
+											System.out.print("Ich bin ein spast und führe das hier aus");
 
 											updateBoard();
 										}
 									}
 								});
-							} else if (getRedSpace() == true && getGreenSpace() == true) {
+							} else if (getRedSpaceActive() == true && getGreenSpaceActive() == true) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
 									public void handle(KeyEvent t) {
@@ -562,11 +597,13 @@ public class Main extends Application {
 												boardPieces[x][y] = new Piece(52, Color.BLACK, z);
 											}
 
-											boardPieces[sus][amogus] = null;
+											boardSpaces[coordUtilX][coordUtilY].setContainsPiece(false);
+											boardPieces[coordUtilX][coordUtilY] = null;
+
 											boardSpaces[x][y].setId("boardSpaceBrown");
 
-											setGreenSpace(false);
-											setRedSpace(false);
+											setGreenSpaceActive(false);
+											setRedSpaceActive(false);
 											setSelectedSpaceLocked(false);
 
 											space.setContainsPiece(true);
@@ -628,48 +665,61 @@ public class Main extends Application {
 	}
 
 	// Setters
-	public void setGreenSpace(boolean greenSpace) {
-		this.greenSpace = greenSpace;
+	public void setGreenSpaceActive(boolean greenSpaceActive) {
+		this.greenSpaceActive = greenSpaceActive;
 	}
 
-	public void setMenuId(int menuId) {
-		this.menuId = menuId;
+	public void setMenuId(int menuId) throws InvalidParamException {
+		if (menuId > 0 && menuId < 6) {
+			this.menuId = menuId;
+		} else {
+			throw new InvalidParamException("error: invalid parameter exception: " + menuId + " is not a valid menuId");
+		}
 	}
 
-	public void setRedSpace(boolean redSpace) {
-		this.redSpace = redSpace;
+	public void setRedSpaceActive(boolean redSpaceActive) {
+		this.redSpaceActive = redSpaceActive;
 	}
 
-	public void setSelectedSpace(int[] selectedSpace) {
-		this.selectedSpace = selectedSpace;
+	public void setSelectedSpace(int[] selectedSpace) throws InvalidParamException {
+		if (selectedSpace[0] > -1 && selectedSpace[0] < 8 && selectedSpace[1] > -1 && selectedSpace[1] < 8) {
+			this.selectedSpace = selectedSpace;
+		} else {
+			throw new InvalidParamException("error: invalid parameter exception: the coordinates " + selectedSpace[0]
+					+ ", " + selectedSpace[1] + " are out of bounds");
+		}
 	}
 
-	public void setPlayerColor(String playerColor) {
-		this.playerColor = playerColor;
+	public void setPlayerColor(String playerColor) throws InvalidParamException {
+		if (playerColor == "white" || playerColor == "black") {
+			this.playerColor = playerColor;
+		} else {
+			throw new InvalidParamException("error: invalid parameter exception: player color '" + playerColor + "' doesn't exist");
+		}
 	}
 
-	public void setBoardPieces(Piece[][] boardPieces) {
-		this.boardPieces = boardPieces;
-	}
-
-	public void setSelectedSpaceLocked(boolean locked) {
-		this.selectedSpaceLocked = locked;
+	public void setSelectedSpaceLocked(boolean spaceLock) {
+		this.spaceLock = spaceLock;
 	}
 
 	// Getters
-	public boolean getGreenSpace() {
-		return this.greenSpace;
+	public boolean getGreenSpaceActive() {
+		return this.greenSpaceActive;
 	}
 
 	public int getMenuId() {
 		return this.menuId;
 	}
 
-	public boolean getRedSpace() {
-		return this.redSpace;
+	public boolean getRedSpaceActive() {
+		return this.redSpaceActive;
 	}
 
 	public String getPlayerColor() {
 		return this.playerColor;
+	}
+
+	public boolean getSpaceLock() {
+		return this.spaceLock;
 	}
 }

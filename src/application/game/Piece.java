@@ -3,32 +3,36 @@ package application.game;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
-public class Piece extends Circle
-{
+public class Piece extends Circle {
 	public int[] coordinates;
 	public int childNumber;
-	
-	public Piece(double radius, Paint fill, int[] coordinates) 
-	{
+	public boolean onSpace;
+
+	public Piece(double radius, Paint fill, int[] coordinates) {
 		super(radius, fill);
-		
+
 		setCoordinates(coordinates);
 	}
-	
-	//Getters
-	public int[] getCoordinates()
-	{
+
+	// Getters
+	public int[] getCoordinates() {
 		return this.coordinates;
 	}
-	
-	//Setters
-	public void setChildNumber(int childNumber) 
-	{
+
+	public boolean getOnSpace() {
+		return this.onSpace;
+	}
+
+	// Setters
+	public void setChildNumber(int childNumber) {
 		this.childNumber = childNumber;
 	}
-	
-	public void setCoordinates(int[] coordinates) 
-	{
+
+	public void setCoordinates(int[] coordinates) {
 		this.coordinates = coordinates;
+	}
+	
+	public void setOnSpace(boolean onSpace) {
+		this.onSpace = onSpace;
 	}
 }
