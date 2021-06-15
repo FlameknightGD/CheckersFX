@@ -1,5 +1,6 @@
 package application.game;
 
+import application.exceptions.InvalidParamException;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 
@@ -8,7 +9,7 @@ public class Piece extends Circle {
 	public int childNumber;
 	public boolean onSpace;
 
-	public Piece(double radius, Paint fill, int[] coordinates) {
+	public Piece(double radius, Paint fill, int[] coordinates) throws InvalidParamException {
 		super(radius, fill);
 
 		setCoordinates(coordinates);
@@ -24,12 +25,13 @@ public class Piece extends Circle {
 	}
 
 	// Setters
-	public void setChildNumber(int childNumber) {
-		this.childNumber = childNumber;
-	}
-
-	public void setCoordinates(int[] coordinates) {
-		this.coordinates = coordinates;
+	public void setCoordinates(int[] coordinates) throws InvalidParamException {
+		if (coordinates[0] > -1 && coordinates[0] < 8 && coordinates[1] > -1 && coordinates[1] < 8) {
+			this.coordinates = coordinates;
+		} else {
+			throw new InvalidParamException("error: invalid parameter exception: the coordinates " + coordinates[0]
+					+ ", " + coordinates[1] + " are out of bounds");
+		}
 	}
 	
 	public void setOnSpace(boolean onSpace) {

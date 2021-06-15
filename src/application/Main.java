@@ -298,7 +298,7 @@ public class Main extends Application {
 		});
 	}
 
-	//Play Menu Method
+	// Play Menu Method
 	public void menuPlay() throws InvalidParamException {
 		// Set Menu ID
 		setMenuId(2);
@@ -331,7 +331,7 @@ public class Main extends Application {
 			} catch (InvalidParamException invParamException) {
 				invParamException.printStackTrace();
 			}
-			
+
 			try {
 				initializeBoard();
 			} catch (InvalidParamException invParamException) {
@@ -343,21 +343,25 @@ public class Main extends Application {
 					// Coordinates
 					int[] pieceCoordinates = { i, j };
 
-					// Initialize Pieces
-					Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
-					Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
+					try {
+						// Initialize Pieces
+						Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
+						Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
 
-					// Add Pieces
-					if (i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
-						if (j < 3) {
-							pieceBlack.setCoordinates(pieceCoordinates);
-							checkerBoard.add(pieceBlack, i, j);
-							boardPieces[i][j] = pieceBlack;
-						} else if (j > 4) {
-							pieceWhite.setCoordinates(pieceCoordinates);
-							checkerBoard.add(pieceWhite, i, j);
-							boardPieces[i][j] = pieceWhite;
+						// Add Pieces
+						if (i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
+							if (j < 3) {
+								pieceBlack.setCoordinates(pieceCoordinates);
+								checkerBoard.add(pieceBlack, i, j);
+								boardPieces[i][j] = pieceBlack;
+							} else if (j > 4) {
+								pieceWhite.setCoordinates(pieceCoordinates);
+								checkerBoard.add(pieceWhite, i, j);
+								boardPieces[i][j] = pieceWhite;
+							}
 						}
+					} catch (InvalidParamException invalidParamException) {
+						invalidParamException.printStackTrace();
 					}
 				}
 			}
@@ -369,7 +373,7 @@ public class Main extends Application {
 			} catch (InvalidParamException invParamException) {
 				invParamException.printStackTrace();
 			}
-			
+
 			try {
 				initializeBoard();
 			} catch (InvalidParamException invParamException) {
@@ -381,21 +385,25 @@ public class Main extends Application {
 					// Coordinates
 					int[] pieceCoordinates = { i, j };
 
-					// Initialize Pieces
-					Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
-					Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
+					try {
+						// Initialize Pieces
+						Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
+						Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
 
-					// Add Pieces
-					if (i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
-						if (j < 3) {
-							pieceWhite.setCoordinates(pieceCoordinates);
-							checkerBoard.add(pieceWhite, i, j);
-							boardPieces[i][j] = pieceWhite;
-						} else if (j > 4) {
-							pieceBlack.setCoordinates(pieceCoordinates);
-							checkerBoard.add(pieceBlack, i, j);
-							boardPieces[i][j] = pieceBlack;
+						// Add Pieces
+						if (i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
+							if (j < 3) {
+								pieceWhite.setCoordinates(pieceCoordinates);
+								checkerBoard.add(pieceWhite, i, j);
+								boardPieces[i][j] = pieceWhite;
+							} else if (j > 4) {
+								pieceBlack.setCoordinates(pieceCoordinates);
+								checkerBoard.add(pieceBlack, i, j);
+								boardPieces[i][j] = pieceBlack;
+							}
 						}
+					} catch (InvalidParamException invParamException) {
+						invParamException.printStackTrace();
 					}
 				}
 			}
@@ -592,9 +600,17 @@ public class Main extends Application {
 											int[] z = { x, y };
 
 											if (getPlayerColor() == "white") {
-												boardPieces[x][y] = new Piece(52, Color.WHITE, z);
+												try {
+													boardPieces[x][y] = new Piece(52, Color.WHITE, z);
+												} catch (InvalidParamException invParamException) {
+													invParamException.printStackTrace();
+												}
 											} else if (getPlayerColor() == "black") {
-												boardPieces[x][y] = new Piece(52, Color.BLACK, z);
+												try {
+													boardPieces[x][y] = new Piece(52, Color.BLACK, z);
+												} catch (InvalidParamException invParamException) {
+													invParamException.printStackTrace();
+												}
 											}
 
 											boardSpaces[coordUtilX][coordUtilY].setContainsPiece(false);
@@ -694,7 +710,8 @@ public class Main extends Application {
 		if (playerColor == "white" || playerColor == "black") {
 			this.playerColor = playerColor;
 		} else {
-			throw new InvalidParamException("error: invalid parameter exception: player color '" + playerColor + "' doesn't exist");
+			throw new InvalidParamException(
+					"error: invalid parameter exception: player color '" + playerColor + "' doesn't exist");
 		}
 	}
 
