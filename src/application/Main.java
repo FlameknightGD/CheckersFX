@@ -45,19 +45,20 @@ public class Main extends Application {
 
 	// Initialize VBoxes
 	VBox menuButtons = new VBox();
+	
 	VBox vBoxVolumeSlider = new VBox();
 
 	// Initialize Config File
-	//Config configFile = new Config("config\\config.txt");
-	
 	File configFile = new File("config/config.txt");
 	ConfigHandler configHandler = new ConfigHandler(configFile);
 
-	// Background Music
-	Media backgroundMusic = new Media(Paths.get("assets/audio/its_raining_somewhere_else.wav").toUri().toString());
+	//Media Players
+	Media backgroundMusic = new Media(Paths.get("assets/audio/music/its_raining_somewhere_else.wav").toUri().toString());
+	Media ingameMusic = new Media(Paths.get("assets/audio/music/megalovania.wav").toUri().toString());
 	MediaPlayer musicPlayer = new MediaPlayer(backgroundMusic);
-
-	// TODO Fix The ConfigParser Get Method Ffs
+	
+	Media moveSound = new Media(Paths.get("assets/audio/sound/move.wav").toUri().toString());
+	MediaPlayer soundPlayer = new MediaPlayer(moveSound);
 
 	// Global Variables
 	double width;
@@ -70,7 +71,7 @@ public class Main extends Application {
 	boolean redSpaceActive = false;
 	boolean greenSpaceActive = false;
 
-	String playerColor;
+	String turnColor;
 
 	Space[][] boardSpaces = new Space[8][8];
 	Piece[][] boardPieces = new Piece[8][8];
@@ -134,6 +135,8 @@ public class Main extends Application {
 		musicPlayer.setAutoPlay(true);
 		musicPlayer.setCycleCount(2147483647);
 		musicPlayer.setVolume(configHandler.getVolumeFromConfig(configFile));
+		
+		soundPlayer.setVolume(configHandler.getVolumeFromConfig(configFile) * 7);
 
 		// Configure CheckerBoard GridPane
 		checkerBoard.setPadding(new Insets(28, 448, 28, 448));
@@ -312,7 +315,7 @@ public class Main extends Application {
 			menuButtons.getChildren().remove(0, menuButtons.getChildren().size());
 		}
 
-		// Initialize Buttons
+		/*// Initialize Buttons
 		Button buttonWhite = new Button("Play As White");
 		Button buttonBlack = new Button("Play As Black");
 
@@ -326,10 +329,15 @@ public class Main extends Application {
 		buttonBlack.setAlignment(Pos.CENTER);
 
 		menuButtons.getChildren().addAll(buttonWhite, buttonBlack);
-		menuButtons.setAlignment(Pos.CENTER);
+		menuButtons.setAlignment(Pos.CENTER);*/
 
-		// Singleplayer Menu Button Functions
+		/* Singleplayer Menu Button Functions
 		buttonWhite.setOnAction(e -> {
+			musicPlayer.stop();
+			musicPlayer = new MediaPlayer(ingameMusic);
+			musicPlayer.play();
+			musicPlayer.setCycleCount(999);
+			
 			try {
 				setPlayerColor("white");
 			} catch (InvalidParamException invParamException) {
@@ -411,7 +419,52 @@ public class Main extends Application {
 					}
 				}
 			}
-		});
+		});*/
+		
+		musicPlayer.stop();
+		musicPlayer = new MediaPlayer(ingameMusic);
+		musicPlayer.play();
+		musicPlayer.setCycleCount(999);
+		
+		try {
+			setPlayerColor("white");
+		} catch (InvalidParamException invParamException) {
+			invParamException.printStackTrace();
+		}
+
+		try {
+			initializeBoard();
+		} catch (InvalidParamException invParamException) {
+			invParamException.printStackTrace();
+		}
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				// Coordinates
+				int[] pieceCoordinates = { i, j };
+
+				try {
+					// Initialize Pieces
+					Piece pieceWhite = new Piece(52, Color.WHITE, pieceCoordinates);
+					Piece pieceBlack = new Piece(52, Color.BLACK, pieceCoordinates);
+
+					// Add Pieces
+					if (i % 2 == 0 && j % 2 == 1 || i % 2 == 1 && j % 2 == 0) {
+						if (j < 3) {
+							pieceBlack.setCoordinates(pieceCoordinates);
+							checkerBoard.add(pieceBlack, i, j);
+							boardPieces[i][j] = pieceBlack;
+						} else if (j > 4) {
+							pieceWhite.setCoordinates(pieceCoordinates);
+							checkerBoard.add(pieceWhite, i, j);
+							boardPieces[i][j] = pieceWhite;
+						}
+					}
+				} catch (InvalidParamException invalidParamException) {
+					invalidParamException.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public void menuHowToPlay() throws InvalidParamException {
@@ -454,6 +507,10 @@ public class Main extends Application {
 		vBoxVolumeSlider.setPrefSize(width / 3, height);
 		vBoxVolumeSlider.setAlignment(Pos.CENTER);
 		vBoxVolumeSlider.setId("vbox_visible_border");
+		
+		vBoxVolumeSlider.setPrefSize(width / 3, height);
+		vBoxVolumeSlider.setAlignment(Pos.CENTER_LEFT);
+		vBoxVolumeSlider.setId("vbox_visible_border");
 
 		menuPane.setCenter(vBoxVolumeSlider);
 
@@ -468,6 +525,7 @@ public class Main extends Application {
 			public void changed(ObservableValue<? extends Number> ov, Number oldValue, Number newValue) {
 				double newVolume = newValue.doubleValue() * 0.0025;
 				musicPlayer.setVolume(newVolume);
+				soundPlayer.setVolume(newVolume * 7);
 				
 				values.put("volume", String.valueOf(newVolume));
 				
@@ -595,8 +653,22 @@ public class Main extends Application {
 										if (key == KeyCode.ENTER) {
 											space.setId("spaceSelectedGreen");
 											setGreenSpaceActive(true);
-
-											System.out.print("Ich bin ein spast und führe das hier aus");
+											
+											if (getPlayerColor() == "white") {
+												try {
+													space.setPieceColor("white");
+												} catch (InvalidParamException invParamException) {
+													invParamException.printStackTrace();
+												}
+											} else if (getPlayerColor() == "black") {
+												try {
+													space.setPieceColor("black");
+												} catch (InvalidParamException invParamException) {
+													invParamException.printStackTrace();
+												}
+											}
+											
+											System.out.println(space.getContainsPiece());
 
 											updateBoard();
 										}
@@ -645,8 +717,22 @@ public class Main extends Application {
 											}
 
 											updateBoard();
-
-											System.out.println(boardPieces[selectedSpace[0]][selectedSpace[1]]);
+											soundPlayer.play();
+											
+											if(getPlayerColor() == "white")
+											{
+												try {
+													setPlayerColor("black");
+												} catch (InvalidParamException invParamException) {
+													invParamException.printStackTrace();
+												}
+											} else if(getPlayerColor() == "black") {
+												try {
+													setPlayerColor("white");
+												} catch (InvalidParamException invParamException) {
+													invParamException.printStackTrace();
+												}
+											}
 										}
 									}
 								});
@@ -717,12 +803,12 @@ public class Main extends Application {
 		}
 	}
 
-	public void setPlayerColor(String playerColor) throws InvalidParamException {
-		if (playerColor == "white" || playerColor == "black") {
-			this.playerColor = playerColor;
+	public void setPlayerColor(String turnColor) throws InvalidParamException {
+		if (turnColor == "white" || turnColor == "black") {
+			this.turnColor = turnColor;
 		} else {
 			throw new InvalidParamException(
-					"error: invalid parameter exception: player color '" + playerColor + "' doesn't exist");
+					"error: invalid parameter exception: player color '" + turnColor + "' doesn't exist");
 		}
 	}
 
@@ -744,7 +830,7 @@ public class Main extends Application {
 	}
 
 	public String getPlayerColor() {
-		return this.playerColor;
+		return this.turnColor;
 	}
 
 	public boolean getSpaceLock() {
