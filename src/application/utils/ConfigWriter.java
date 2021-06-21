@@ -6,10 +6,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.HashMap;
 
-public class ConfigHandler {
+public class ConfigWriter {
 	File configFile;
 
-	public ConfigHandler(File configFile) {
+	public ConfigWriter(File configFile) {
 		setConfigFile(configFile);
 	}
 

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import application.exceptions.InvalidParamException;
 import application.game.Piece;
 import application.game.Space;
-import application.utils.ConfigHandler;
+import application.utils.ConfigWriter;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -50,7 +50,7 @@ public class Main extends Application {
 
 	// Initialize Config File
 	File configFile = new File("config/config.txt");
-	ConfigHandler configHandler = new ConfigHandler(configFile);
+	ConfigWriter configHandler = new ConfigWriter(configFile);
 
 	// Media Players
 	Media backgroundMusic = new Media(
