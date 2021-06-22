@@ -494,8 +494,6 @@ public class Main extends Application {
 				}
 			}
 		});
-
-		// TODO Fix VBox Placement
 	}
 
 	// Back Method
@@ -570,6 +568,9 @@ public class Main extends Application {
 						} catch (InvalidParamException invParamException) {
 							invParamException.printStackTrace();
 						}
+						
+						int tempInt1 = space.getCoordinates()[0];
+						int tempInt2 = space.getCoordinates()[1];
 
 						final int coordUtilXTemp = x;
 						final int coordUtilYTemp = y;
@@ -604,34 +605,34 @@ public class Main extends Application {
 								});
 							} else if (getRedSpaceActive() == true && getGreenSpaceActive() == false
 									&& space.getContainsPiece() == false) {
-								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
-									@Override
-									public void handle(KeyEvent t) {
-										KeyCode key = t.getCode();
-										if (key == KeyCode.ENTER) {
-											space.setId("spaceSelectedGreen");
-											setGreenSpaceActive(true);
+								if (checkMoveValidity(tempInt1, tempInt2, coordUtilX, coordUtilY) == true) {
+									space.setOnKeyPressed(new EventHandler<KeyEvent>() {
+										@Override
+										public void handle(KeyEvent t) {
+											KeyCode key = t.getCode();
+											if (key == KeyCode.ENTER) {
+												space.setId("spaceSelectedGreen");
+												setGreenSpaceActive(true);
 
-											if (getPlayerColor() == "white") {
-												try {
-													space.setPieceColor("white");
-												} catch (InvalidParamException invParamException) {
-													invParamException.printStackTrace();
+												if (getPlayerColor() == "white") {
+													try {
+														space.setPieceColor("white");
+													} catch (InvalidParamException invParamException) {
+														invParamException.printStackTrace();
+													}
+												} else if (getPlayerColor() == "black") {
+													try {
+														space.setPieceColor("black");
+													} catch (InvalidParamException invParamException) {
+														invParamException.printStackTrace();
+													}
 												}
-											} else if (getPlayerColor() == "black") {
-												try {
-													space.setPieceColor("black");
-												} catch (InvalidParamException invParamException) {
-													invParamException.printStackTrace();
-												}
+
+												updateBoard();
 											}
-
-											System.out.println(space.getContainsPiece());
-
-											updateBoard();
 										}
-									}
-								});
+									});
+								}
 							} else if (getRedSpaceActive() == true && getGreenSpaceActive() == true) {
 								space.setOnKeyPressed(new EventHandler<KeyEvent>() {
 									@Override
@@ -674,6 +675,7 @@ public class Main extends Application {
 												}
 											}
 
+											removePieceByMove(tempInt1, tempInt2, coordUtilX, coordUtilY);
 											updateBoard();
 											soundPlayer.play();
 
@@ -703,7 +705,7 @@ public class Main extends Application {
 				checkerBoard.add(space, i, j);
 			}
 		}
-		
+
 		if (primaryStage.getScene().getRoot() instanceof GridPane == false) {
 			primaryStage.setScene(checkerBoardScene);
 		}
@@ -732,6 +734,134 @@ public class Main extends Application {
 			for (int j = 0; j < 8; j++) {
 				if (boardPieces[i][j] instanceof Piece) {
 					checkerBoard.add(boardPieces[i][j], i, j);
+				}
+			}
+		}
+
+		boolean whitePieceOnBoard = false;
+		boolean blackPieceOnBoard = false;
+
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (boardPieces[i][j] != null) {
+					if (boardPieces[i][j].getFill() == Color.WHITE) {
+						whitePieceOnBoard = true;
+					} else if (boardPieces[i][j].getFill() == Color.BLACK) {
+						blackPieceOnBoard = true;
+					}
+				}
+			}
+		}
+
+		Alert gameWon = new Alert(AlertType.NONE);
+		gameWon.setTitle("Game Won!");
+		gameWon.setHeaderText("Game Won!");
+
+		if (whitePieceOnBoard == true && blackPieceOnBoard == false) {
+			gameWon.setContentText("The White Side has won the game!");
+			gameWon.show();
+		} else if (blackPieceOnBoard == true && whitePieceOnBoard == false) {
+			gameWon.setContentText("The Black Side has won the game!");
+			gameWon.show();
+		}
+	}
+
+	public boolean checkMoveValidity(int coord1, int coord2, int coord3, int coord4) {
+		boolean valid = false;
+
+		boolean valid1 = false;
+		boolean valid2 = false;
+
+		if (coord1 > coord3) {
+			if (coord1 - coord3 < 3) {
+				valid1 = true;
+			}
+		} else if (coord3 > coord1) {
+			if (coord3 - coord1 < 3) {
+				valid1 = true;
+			}
+		}
+
+		if (coord2 > coord4) {
+			if (coord2 - coord4 < 3) {
+				valid2 = true;
+			}
+		} else if (coord4 > coord2) {
+			if (coord4 - coord2 < 3) {
+				valid2 = true;
+			}
+		}
+
+		if (valid1 == true && valid2 == true) {
+			valid = true;
+		}
+
+		return valid;
+	}
+
+	public void removePieceByMove(int coord1, int coord2, int coord3, int coord4) {
+		if(coord1 < coord3 && coord2 < coord4) {
+			for (int i = coord1 + 1; i < coord3; i++) {
+				for (int j = coord2 + 1; j < coord4; j++) {
+					if (boardPieces[i][j] != null) {
+						if (getPlayerColor() == "white") {
+							if(boardPieces[i][j].getFill() == Color.BLACK) {
+								boardPieces[i][j] = null;
+							}
+						} else if (getPlayerColor() == "black") {
+							if(boardPieces[i][j].getFill() == Color.WHITE) {
+								boardPieces[i][j] = null;
+							}
+						}
+					}
+				}
+			}
+		} else if (coord1 > coord3 && coord2 < coord4) {
+			for (int i = coord3 + 1; i < coord1; i++) {
+				for (int j = coord2 + 1; j < coord4; j++) {
+					if (boardPieces[i][j] != null) {
+						if (getPlayerColor() == "white") {
+							if(boardPieces[i][j].getFill() == Color.BLACK) {
+								boardPieces[i][j] = null;
+							}
+						} else if (getPlayerColor() == "black") {
+							if(boardPieces[i][j].getFill() == Color.WHITE) {
+								boardPieces[i][j] = null;
+							}
+						}
+					}
+				}
+			}
+		} else if(coord1 < coord3 && coord2 > coord4) {
+			for (int i = coord1 + 1; i < coord3; i++) {
+				for (int j = coord4 + 1; j < coord2; j++) {
+					if (boardPieces[i][j] != null) {
+						if (getPlayerColor() == "white") {
+							if(boardPieces[i][j].getFill() == Color.BLACK) {
+								boardPieces[i][j] = null;
+							}
+						} else if (getPlayerColor() == "black") {
+							if(boardPieces[i][j].getFill() == Color.WHITE) {
+								boardPieces[i][j] = null;
+							}
+						}
+					}
+				}
+			}
+		} else if (coord1 > coord3 && coord2 > coord4) {
+			for (int i = coord3 + 1; i < coord1; i++) {
+				for (int j = coord4 + 1; j < coord2; j++) {
+					if (boardPieces[i][j] != null) {
+						if (getPlayerColor() == "white") {
+							if(boardPieces[i][j].getFill() == Color.BLACK) {
+								boardPieces[i][j] = null;
+							}
+						} else if (getPlayerColor() == "black") {
+							if(boardPieces[i][j].getFill() == Color.WHITE) {
+								boardPieces[i][j] = null;
+							}
+						}
+					}
 				}
 			}
 		}
